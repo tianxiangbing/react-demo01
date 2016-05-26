@@ -1,0 +1,26 @@
+@import "base";
+.mapContainer{
+	border:1px solid #cecece;
+	overflow:hidden;
+	.smallMap{
+		width:pxToRem(190);
+		height:pxToRem(172);
+		@extend .fl;
+	}
+	.mapAdress{
+		@extend .fl;
+		margin-left:pxToRem(28);
+		font-size:$fontSize1;
+		padding-top:pxToRem(20);
+		width:pxToRem(425);
+		h2{
+			color:#242424;
+			font-size:$fontSize2;
+			margin-bottom:pxToRem(15);
+		}
+		p{
+			color:#c2c2c2;
+			line-height:1.6;
+		}
+	}
+}

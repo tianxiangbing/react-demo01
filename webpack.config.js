@@ -43,7 +43,7 @@ var config ={
         },
             {
                 test:/\.scss$/,
-                loader:extractCSS.extract('style-loader','css?sourceMap!sass')
+                loader:extractCSS.extract('style-loader','css?sourceMap!sass?includePaths[]='+ path.resolve(__dirname, 'app/scss'))
             },
             {
                 test:/\.html$/,loader:"html-loader"
