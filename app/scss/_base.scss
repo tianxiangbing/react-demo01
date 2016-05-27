@@ -1,8 +1,15 @@
+
 $baseFontSize :100;
+$fontSize1:12px;/*pxToRem(24)*/;
+$fontSize2:14px/*pxToRem(26)*/;
+$fontSize3:16px/*pxToRem(28)*/;
+$whiteColor:#fff;
 html,
 	body{
 	margin:0;padding:0;
+	font-size:$fontSize1;
 	}
+*{box-sizing:border-box;}
 li,i,em{
 	font-style:normal;
 	text-decoration: inherit;
@@ -42,9 +49,6 @@ a{
 .fl{
 	float:left;
 }
-$fontSize1:12px;/*pxToRem(24)*/;
-$fontSize2:14px/*pxToRem(26)*/;
-$fontSize3:16px/*pxToRem(28)*/;
 h1,h2,h3,h4,b,p{
 font-weight:normal;line-height:1;
 margin:0;

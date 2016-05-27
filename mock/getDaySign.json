@@ -1,0 +1,23 @@
+{
+	"code": 0,
+	"description": "获取签到列表成功 !",
+	"result": [{
+		"id": 93849,
+		"orgId": "57171554250",
+		"orgName": "讯盟（测试）",
+		"uid": "10101001610432",
+		"userName": "田想兵",
+		"type": 0,
+		"formatTime": "13:49",
+		"time": 1464328150124,
+		"remark": "",
+		"placeName": "浙江省杭州市西湖区蒋村街道文二西路798号",
+		"shortPlaceName": "蒋村街道文二西路798号",
+		"longitude": 120.0690527344,
+		"latitude": 30.2819118924,
+		"images": [],
+		"authList": [],
+		"status": 0,
+		"isCrossDay": 0
+	}]
+}
