@@ -87,7 +87,9 @@ export default class App extends Component{
 				currCorp = data[0];
 				//this.setState({currCorp:data[0]});
 			}
-			this.setState({currCorp:currCorp})
+			//this.setState({currCorp:currCorp});
+			//cookie.save('orgId', currCorp.orgId, { path: '/' });
+			this.select(currCorp);
 		});
 	}
 	componentDidMount(){
@@ -104,7 +106,41 @@ export default class App extends Component{
 	}
 	select(obj){
 		console.log(arguments)
+		this.state.currCorp=obj;
 		this.setState({currCorp:obj,expand:false});
+		cookie.save('orgId', obj.orgId, { path: '/' });
+		this.bindSign();
+	}
+	bindSign(){
+		Config.ajax('getDaySign').then((data)=>{
+			console.log(data.result)
+			data.result = data.result.map((item)=>{
+				if((item.type == 0 || item.type == 1) && item.status != 0 ){
+					if(item.status!=4){
+						item.className ="error";
+					}else if(item.status != 1 && d[j].status != 2){
+						item.className ="loc-error";
+					}
+				}
+				if(item.type==0){
+					if(item.status == 0 || item.status ==4){
+						item.title="上班打卡"
+					}else{
+						item.title="上班迟到";
+					}
+				}else if(item.type ==1){
+					if(item.status == 0 || item.status ==4){
+						item.title="下班打卡"
+					}else{
+						item.title="下班早退";
+					}
+				}else if(item.type ==1){
+					item.title="外勤签到"
+				}
+				return item;
+			})
+			this.setState({'showText':'',"recordList":data.result});
+		});
 	}
 	expandOrg(){
 		this.setState({expand:!this.state.expand});
@@ -157,7 +193,21 @@ export default class App extends Component{
 					</div>
 				</div>
 				<div className="box upborder signRecord">
-					<div className="listSign"></div>
+					<div className="listSign">
+					{
+						(this.state.recordList||[]).map((item)=>{
+							return (
+								<div className="item">
+									<div className="time">{item.formatTime}</div>
+									<div className="desc">
+										<div className="title">{item.title}</div>
+										<div className="position"><i/>{item.shortPlaceName}</div>
+									</div>
+								</div>
+								)
+						})
+					}
+					</div>
 					<div className="nodata">{this.state.showText}</div>
 				</div>
 			</div>
