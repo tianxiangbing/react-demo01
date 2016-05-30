@@ -38,18 +38,53 @@
 	width:100%;
 }
 .mapicon{
-	color:#fa565a;
+	color:$focusColor;
 	font-size:22px;
 }
 .orgInfo{
 	background-color:$whiteColor;
 	font-size:$fontSize2;
 	line-height:pxToRem(90);
+	position:relative;
+	z-index:3;
+	.focus{
+		padding-left:pxToRem(28);
+	}
 	.orgList{
 		position:absolute;
 		z-index:1;
 		background-color:$whiteColor;
 		width:100%;
-		padding:0 pxToRem(30);
+		padding:0;
+		border-top:1px solid $borderColor2;
+		div{
+			margin-left:pxToRem(60);
+			border-bottom:1px solid $borderColor2;
+			&:last-child{
+				border:none;
+			}
+			&.focus{
+				color:$focusColor;
+				padding:0;
+			}
+		}
 	}
+}
+.mask{
+	background-color:rgba(0,0,0,0.5);
+	position:fixed;
+	width:100%;
+	height:100%;
+	z-index:2;
+	left:0;
+	top:0;
+	margin-left:0 !important;
+}
+.amap-logo,.amap-copyright,.amap-controls,.datepicker-months,.datepicker-years{
+  display: none;
+}
+.timer{
+	background:$whiteColor;
+	padding-left:pxToRem(28);
+	color:$fontColorGray;
 }

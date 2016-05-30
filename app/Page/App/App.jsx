@@ -1,3 +1,11 @@
+/*
+ * Created with Sublime Text 3.
+ * license: http://www.lovewebgames.com
+ * User: 田想兵
+ * Date: 2016-05-30
+ * Time: 10:27:55
+ * Contact: 55342775@qq.com
+ */
 import React from 'react';
 import {Link} from 'react-router';
 import Helmet from "react-helmet";
@@ -11,7 +19,7 @@ import 'whatwg-fetch';
 export default class App extends Component{
 	constructor(props){
 		super(props);
-		this.state={localInfo:{},recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{}};
+		this.state={localInfo:{},recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false};
 	}
 	getLngXY(){
 		return Config.native('getPosition')
@@ -85,21 +93,60 @@ export default class App extends Component{
 	componentDidMount(){
 		this.initMap();
 		this.initCorp();
+		this.updateTime();
+		this.timer = setInterval(()=>{
+			this.updateTime();
+			this.initMap();
+		},1000*60);
+	}
+	componentWillUnmount() {
+	    this.timer&&clearInterval(this.timer);  
+	}
+	select(obj){
+		console.log(arguments)
+		this.setState({currCorp:obj,expand:false});
+	}
+	expandOrg(){
+		this.setState({expand:!this.state.expand});
+	}
+	updateTime(){
+		Config.ajax('getTime').then((data)=>{
+			console.log(data);
+			if(!!data.redirect){
+                location.href = data.redirect;
+            }
+            if(data.code == 0){
+                var result = data.result[0];
+                this.setState({'time':result});
+            }else{
+                //AlertBox.alerts('获取时间异常');
+            }
+		})
 	}
 	render(){
 		return (
 			<div className="body">
 				<Helmet title="签到"/>
 				<div className="orgInfo">
-					<div>{this.state.currCorp.orgName}</div>
-						<div className="orgList">
-						{
-							(this.state.corpList||[]).map((item)=>{
-								return <div>{item.orgName}</div>
-							})
-						}
-						</div>
+					<div className="focus" onClick={this.expandOrg.bind(this)}>{this.state.currCorp.orgName} <i className={this.state.expand?"triangle up":"triangle down"}/></div>
+					{
+						this.state.expand?
+					<div className="orgList">
+					{
+						(this.state.corpList||[]).map((item)=>{
+							return <div className={item.orgId==this.state.currCorp.orgId?"focus":""} onClick={this.select.bind(this,item)}>{item.orgName}</div>
+						})
+					}
 					</div>
+					:null
+					}
+				</div>
+				{
+				this.state.expand?
+				<div className="mask">
+				</div>:null
+				}
+				<div className="timer">{this.state.time}</div>
 				<div className="box downborder">
 					<div className="mapContainer">
 						<div ref="smallMap" id="container" className="smallMap"/>

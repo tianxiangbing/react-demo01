@@ -4,6 +4,10 @@ $fontSize1:12px;/*pxToRem(24)*/;
 $fontSize2:14px/*pxToRem(26)*/;
 $fontSize3:16px/*pxToRem(28)*/;
 $whiteColor:#fff;
+$borderColor:#cdcdcd;
+$borderColor2:#cecece;
+$focusColor:#fa565a;
+$fontColorGray:#999;
 html,
 	body{
 	margin:0;padding:0;
@@ -38,7 +42,6 @@ a{
 .box{
 	padding:pxToRem(28) pxToRem(30);
 	background-color:#fff;
-	$borderColor:#cdcdcd;
 	&.upborder{
 		border-top:1px solid $borderColor;
 	}
@@ -52,4 +55,20 @@ a{
 h1,h2,h3,h4,b,p{
 font-weight:normal;line-height:1;
 margin:0;
+}
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: pxToRem(15) solid transparent;
+    border-right: pxToRem(15) solid transparent;
+    $borderColor:#aea5a5;
+    display:inline-block;
+    float:right;
+    margin:pxToRem(35) pxToRem(40) auto auto;
+	&.down{
+	    border-top: pxToRem(20) solid $borderColor;
+    }
+    &.up{
+    	border-bottom:pxToRem(20) solid $borderColor;
+    }
 }

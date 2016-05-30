@@ -3,8 +3,9 @@ import 'whatwg-fetch';
 let Config = {
 	ajax: function() {
 		var args = Array.prototype.slice.call(arguments, 0);
-		return fetch.apply(args).then((response) => {
-			response.json()
+		args[0] = "/mock/"+ args[0]+".json";
+		return fetch.apply(null,args).then((response) => {
+			return response.json()
 		});
 	},
 	native: function(method, data) {
