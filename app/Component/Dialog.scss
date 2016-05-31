@@ -1,0 +1,19 @@
+@import 'base';
+
+.dialog{
+	position:fixed;
+	top: 50%;  
+	left: 50%;
+	margin: auto;
+	-webkit-transform: translate(-50%,-50%);	  //减去自身的50%（多移动的）
+	-ms-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	&.alert{
+		background:rgba(0,0,0,.7);
+		color:#fff;
+	    padding:pxToRem(20) pxToRem(40);
+	    border-radius:pxToRem(10);
+	    font-size:$fontSize2;
+	}
+	z-index:99;
+}

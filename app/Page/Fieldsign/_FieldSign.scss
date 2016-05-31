@@ -1,0 +1,61 @@
+@import 'base';
+.formBox{
+	font-size:$fontSize2;
+	margin-top:pxToRem(32);
+	border:1px solid #cfcfcf;
+	border-left:none;
+	border-right:none;
+	background-color:$whiteColor;
+	padding-left:pxToRem(25);
+	.row{
+		overflow:hidden;
+		padding:pxToRem(28) 0 ;
+		border-bottom:1px solid #cecece;
+		&:last-child{
+			border:none;
+		}
+		.label{
+			color:#919191;
+			float:left;
+			padding-right:pxToRem(20);
+			text-align:left;
+		}
+		.info{
+			color:#232323;
+		}
+	}
+	textarea{
+		border:none;
+		width:pxToRem(690);
+		height:pxToRem(190);
+		padding: pxToRem(20) 0;
+		font-size:$fontSize2;
+		color:#4d4d4d;
+	}
+}
+.btnBottom{
+	position:fixed;
+	bottom:0;
+	width:100%;
+	height:pxToRem(90);
+	line-height:pxToRem(90);
+	border-top:1px solid #b6b6b6;
+	text-align:center;
+	background-color:$whiteColor;
+	color:$fontColorRed;
+	font-size:$fontSize2;
+}
+.addUser{
+	padding:pxToRem(25) 0 ;
+	color:$fontColorBlack;
+	span{
+		float:right;
+		color:$fontColorGray;
+		margin-right:pxToRem(25);
+		i{
+			font-size:$fontSize2;
+			font-weight:bolder;
+			margin-left:pxToRem(20);
+		}
+	}
+}

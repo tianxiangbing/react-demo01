@@ -23,12 +23,16 @@
 			line-height:1.6;
 		}
 	}
+	.replay{
+		text-decoration: underline;
+	}
 }
 .signRecord{
 	top:pxToRem(390);
 	position:absolute;
 	bottom:0;
 	width:100%;
+	padding-right:0 !important;
 }
 .nodata{
 	color:#999;
@@ -88,4 +92,97 @@
 	background:$whiteColor;
 	padding-left:pxToRem(28);
 	color:$fontColorGray;
+}
+
+.listSign{
+	overflow:auto;
+	.item{
+		clear:both;
+		.time{
+			float:left;
+			width:pxToRem(132);
+			font-size:$fontSize4;
+      		font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica;
+      		line-height:1;
+		}
+		.title{
+			font-size:$fontSize2;
+		}
+		.desc{
+			font-size:$fontSize1;
+			float:left;
+			border-bottom:1px solid #cecece;
+			padding-bottom:pxToRem(30);
+			padding-right:pxToRem(32);
+			margin-bottom:pxToRem(30);
+			width:pxToRem(585);
+		}
+		.position{
+			font-size:$fontSize1;
+			margin:pxToRem(20) 0 0 0;
+			color:#928989;
+			i{
+				font-size:pxToRem(32);
+				color:#b4b4b4;
+				margin-right:pxToRem(12);
+				vertical-align: middle;
+			}
+		}
+		.remark{
+			margin:pxToRem(20) 0 0 0;
+			width:pxToRem(540);
+			font-size:$fontSize1;
+			color:#544b4b;
+			line-height:1.5;
+		}
+	}
+}
+.bottomButton{
+	position:fixed;
+	bottom:0;
+	width:100%;
+	text-align:center;
+	.button{
+		display:inline-block;
+		margin:0 pxToRem(90);
+		p{
+			line-height:pxToRem(65);
+			color:#282828;
+		}
+		a{
+			width:pxToRem(160);
+			height:pxToRem(160);
+			line-height:pxToRem(160);
+			display:block;
+			border-radius:pxToRem(80);
+			color:#fff;
+			font-size:pxToRem(60);
+		}
+		&.lbutton a{
+			background-color:#4ec2b5;
+			&:active{
+				background-color:#21a497;
+			}
+		}
+		&.rbutton a{
+			background-color:#efbc6b;
+			&:active{
+				background-color:#d2974d;
+			}
+		}
+	}
+	&.smbutton {
+		width:50%;
+		margin-bottom:pxToRem(280);
+		.button{
+			margin:0 0 0 pxToRem(40);
+			a{
+				width:pxToRem(140);
+				height:pxToRem(140);
+				line-height:pxToRem(140);
+				font-size:$fontSize2;
+				font-family:$fontFamily;
+			}
+		}
+	}
 }

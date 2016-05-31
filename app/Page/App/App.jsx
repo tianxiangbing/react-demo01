@@ -14,12 +14,13 @@ import Config from '../../config/config';
 import cookie from 'react-cookie';
 let {Component}= React;
 import 'whatwg-fetch';
-
+import Dialog from '../../Component/Dialog';
 
 export default class App extends Component{
 	constructor(props){
 		super(props);
-		this.state={localInfo:{},recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false};
+		this.isLocated = 0;
+		this.state={localInfo:{},lnglatXY:null,recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false,isShowSign:false,dialog:0};
 	}
 	getLngXY(){
 		return Config.native('getPosition')
@@ -28,11 +29,24 @@ export default class App extends Component{
 		let lnglatXY;
 		let map = new AMap.Map('container');
 		let _this =this;
+		setTimeout(()=>{
+			//定位超时
+			if(!this.isLocated){
+				this.state.localInfo.title="";
+				this.state.localInfo.desc= '';
+				this.state.localInfo.status=false;
+				this.setState({localInfo:this.state.localInfo});
+			}
+		},1000)
+		this.isLocated = 0;
 		this.getLngXY().then((res) => {
+			if(res.code != 200)return;
+			this.isLocated = 1;
 			map.setZoom(10);
 			lnglatXY = res.data;
 			map.setCenter(lnglatXY);
 			regeocoder();
+			_this.setState({lnglatXY:lnglatXY});
 
 			function regeocoder() { //逆地理编码
 				var geocoder = new AMap.Geocoder({
@@ -61,7 +75,8 @@ export default class App extends Component{
 				_this.setState({
 					localInfo: {
 						title: title,
-						desc: desc
+						desc: desc,
+						status:true
 					}
 				});
 			}
@@ -110,6 +125,7 @@ export default class App extends Component{
 		this.setState({currCorp:obj,expand:false});
 		cookie.save('orgId', obj.orgId, { path: '/' });
 		this.bindSign();
+		this.updateTime();
 	}
 	bindSign(){
 		Config.ajax('getDaySign').then((data)=>{
@@ -134,30 +150,87 @@ export default class App extends Component{
 					}else{
 						item.title="下班早退";
 					}
-				}else if(item.type ==1){
+				}else if(item.type ==2){
 					item.title="外勤签到"
 				}
 				return item;
-			})
-			this.setState({'showText':'',"recordList":data.result});
+			});
+			if(data.result.length==0){
+				this.setState({'showText':'您还没有签到哦~'})
+			}else{
+				this.setState({'showText':'',"recordList":data.result});
+			}
 		});
 	}
 	expandOrg(){
 		this.setState({expand:!this.state.expand});
 	}
 	updateTime(){
-		Config.ajax('getTime').then((data)=>{
+		if(!this.state.currCorp.orgId)return;
+		let param={
+			orgId:this.state.currCorp.orgId
+		};
+		Config.ajax('getTime',JSON.stringify(param)).then((data)=>{
 			console.log(data);
 			if(!!data.redirect){
                 location.href = data.redirect;
             }
-            if(data.code == 0){
+            if(data.code == 200){
                 var result = data.result[0];
                 this.setState({'time':result});
             }else{
                 //AlertBox.alerts('获取时间异常');
+                this.setState({dialog:{show:true,msg:"获取时间异常",type:"alert"}});
             }
 		})
+	}
+	//显示上下班
+	showSign(){
+		this.setState({isShowSign:true});
+	}
+	sign(type){
+		let data ={
+			token:"7d171a5fd4954f0c34345c2bbe3f8932",
+			orgId:this.state.currCorp.orgId,
+			orgName:this.state.currCorp.orgName,
+			type:type,
+			placeName:this.state.localInfo.desc,
+			shortPlaceName:this.state.localInfo.title,
+			longitude:this.state.lnglatXY[0],
+			latitude:this.state.lnglatXY[1]
+		}
+		Config.ajax("sign",
+		{
+		  headers: {
+		    'Accept': 'application/json',
+		    'Content-Type': 'application/json'
+		  },
+		  method: 'POST',
+		  body:  JSON.stringify(data)
+		}).then((res)=>{
+			if(res.code==200){
+					this.bindSign();
+			}
+		})
+	}
+	hideSign(){
+		this.setState({isShowSign:false});
+	}
+	renderDialog(){
+		console.log(this.state.dialog)
+		return <Dialog stage={this} {...this.state.dialog}/>
+	}
+	setLocalStorage(){
+		var outInfo = {
+            'orgId':this.state.currCorp.orgId,
+            'orgName': this.state.currCorp.orgName,
+            'time': this.state.time,
+            'locName': this.state.localInfo.title,
+            'locFullName': this.state.localInfo.desc,
+            'locLng': this.state.lnglatXY[0],
+            'locLat': this.state.lnglatXY[1]
+        };
+        localStorage.setItem('outInfo',JSON.stringify(outInfo));
 	}
 	render(){
 		return (
@@ -187,8 +260,17 @@ export default class App extends Component{
 					<div className="mapContainer">
 						<div ref="smallMap" id="container" className="smallMap"/>
 						<div className="mapAdress">
-							<h2>{this.state.localInfo.title}</h2>
-							<p>{this.state.localInfo.desc}</p>
+							{
+								(()=>{
+									if(this.state.localInfo.status){
+										return (<div><h2>{this.state.localInfo.title}</h2>
+										<p>{this.state.localInfo.desc}</p>
+										</div>)
+									}else{
+										return (<div><h2>定位失败</h2><p>地点获取失败，请点击<span className="replay" onClick={this.initMap.bind(this)} >这里</span>重试</p></div>)
+									}
+								})()
+							}
 						</div>
 					</div>
 				</div>
@@ -201,7 +283,14 @@ export default class App extends Component{
 									<div className="time">{item.formatTime}</div>
 									<div className="desc">
 										<div className="title">{item.title}</div>
-										<div className="position"><i/>{item.shortPlaceName}</div>
+										<div className="position"><i className="iconfont icon-qiandaodingwei"/>{item.shortPlaceName}</div>
+										{
+											(()=>{
+												if(item.type==2){
+													return <div className="remark">{item.remark}</div>
+												}
+											})()
+										}
 									</div>
 								</div>
 								)
@@ -210,6 +299,32 @@ export default class App extends Component{
 					</div>
 					<div className="nodata">{this.state.showText}</div>
 				</div>
+				<div className="bottomButton">
+					<div className="button lbutton" onClick={this.showSign.bind(this)}>
+						<a className="iconfont icon-qiandaokaoqindaqia"></a>
+						<p>签到</p>
+					</div>
+					<Link to="fieldsign" onClick={this.setLocalStorage.bind(this)}>
+					<div className="button rbutton">
+						<a className="iconfont icon-qiandaowaiqinqiandao"></a>
+						<p>外勤签到</p>
+					</div>
+					</Link>
+				</div>
+				{
+				this.state.isShowSign?
+				<div className="mask z-4" onClick={this.hideSign.bind(this)}>
+					<div className="bottomButton smbutton">
+						<div className="button lbutton" onClick={this.sign.bind(this,0)}>
+							<a>上班</a>
+						</div>
+						<div className="button rbutton" onClick={this.sign.bind(this,1)}>
+							<a>下班</a>
+						</div>
+					</div>
+				</div>:null
+				}
+                {this.state.dialog?this.renderDialog():undefined}
 			</div>
 			)
 	}

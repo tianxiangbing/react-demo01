@@ -1,13 +1,23 @@
 
 $baseFontSize :100;
+
+$fontFamily:'Microsoft Yahei', 'Hiragino Sans GB', Helvetica;
+
+@function pxToRem($px){
+  @return $px/$baseFontSize * 1rem;
+}
+
 $fontSize1:12px;/*pxToRem(24)*/;
 $fontSize2:14px/*pxToRem(26)*/;
 $fontSize3:16px/*pxToRem(28)*/;
+$fontSize4:18px/*pxToRem(34)*/;
 $whiteColor:#fff;
 $borderColor:#cdcdcd;
 $borderColor2:#cecece;
 $focusColor:#fa565a;
 $fontColorGray:#999;
+$fontColorBlack:#292020;
+$fontColorRed:#f85e57;
 html,
 	body{
 	margin:0;padding:0;
@@ -35,9 +45,6 @@ a{
 %nowrap{
   white-space: nowrap;
   word-break: keep-all;
-}
-@function pxToRem($px){
-  @return $px/$baseFontSize * 1rem;
 }
 .box{
 	padding:pxToRem(28) pxToRem(30);
@@ -71,4 +78,10 @@ margin:0;
     &.up{
     	border-bottom:pxToRem(20) solid $borderColor;
     }
+}
+.z-4{
+	z-index:4 !important;
+}
+input,textarea{
+	outline:none;
 }
