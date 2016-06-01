@@ -14,6 +14,7 @@ import Styles from './_App.scss';
 import App from './page/App/App';
 import Record from './page/Record/Record';
 import Fieldsign from './page/Fieldsign/Fieldsign';
+import SelectArea from './page/SelectArea/SelectArea';
 
 document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';
 
@@ -22,5 +23,6 @@ render((
     <Route path="/" component={App}/>
     <Route path="/record" component={Record}/>
     <Route path="/fieldsign" component={Fieldsign}/>
+    <Route path="/selectarea" component={SelectArea}/>
   </Router>
 ), document.getElementById('app'))

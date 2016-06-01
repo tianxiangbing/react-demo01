@@ -97,6 +97,7 @@ export default class Fieldsign extends Component{
 					if (res.code == 200) {
 						let data = res.data;
 						let i = data.index;
+						debugger;
 						_this.state.imgList[i].uploaded = true;
 						_this.setState({
 							imgList: _this.state.imgList

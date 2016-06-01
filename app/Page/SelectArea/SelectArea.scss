@@ -1,0 +1,64 @@
+@import 'base';
+.bigMap{
+	height:pxToRem(600);
+	z-index: 2;
+}
+.panel{
+	position:absolute;
+	top:0;
+	left:0;
+	padding-top:pxToRem(600);
+	padding-bottom:pxToRem(90);
+	overflow:auto;
+	width:100%;
+	height:100%;
+	background-color: $whiteColor;
+}
+.amap_lib_placeSearch_page,.amap_lib_placeSearch_poi{display:none !important;}
+.amap-marker,.amap_lib_placeSearch_page,.poi-more,.poi-tel,.amap-overlays,.locs-list-container .amap_lib_placeSearch_poi{
+display: none !important;
+}
+.amap_lib_placeSearch{
+	border-left:none;
+	border-right:none;
+}
+.amap_lib_placeSearch_list{
+	padding:0 0 0 pxToRem(30);
+	border:none;
+	li:last-child{
+		border-bottom:none;
+	}
+	.poibox{
+		padding:pxToRem(25) 0;
+		border-bottom:1px solid #cfcfcf;
+		.poi-title,.poi-info{
+			margin:0;
+		}
+		.poi-name{
+			color:$fontColorBlack;
+		}
+		.poi-info{
+			p.poi-addr{
+				color:#9b9b9b;
+			}
+		}
+		&.active{
+			background-color: transparent;
+			background:url(right.png) no-repeat no-repeat pxToRem(658) center;
+			-webkit-background-size:pxToRem(32) pxToRem(32);
+			background-size:pxToRem(32) pxToRem(32);
+			.poi-name{
+				color:#f95048 !important;
+			}
+		}
+		&.active:last{
+			content:' ';
+		}
+	}
+} 
+.amap-marker:first-child{
+display: block !important;
+}
+.markerShow{
+display: block !important;
+}

@@ -44,10 +44,16 @@ export default class App extends Component{
 			this.isLocated = 1;
 			map.setZoom(10);
 			lnglatXY = res.data;
-			map.setCenter(lnglatXY);
+			let setPosition = localStorage.getItem('lnglatXY')
+			if(setPosition){
+				map.setCenter(JSON.parse(setPosition));
+				localStorage.removeItem('lnglatXY');
+			}else{
+				map.setCenter(lnglatXY);
+			}
 			regeocoder();
 			_this.setState({lnglatXY:lnglatXY});
-
+            localStorage.setItem('lnglatXY',JSON.stringify(lnglatXY));
 			function regeocoder() { //逆地理编码
 				var geocoder = new AMap.Geocoder({
 					radius: 1000,
@@ -72,6 +78,10 @@ export default class App extends Component{
 				let address = data.regeocode.addressComponent; //返回地址描述
 				let title = address.township + address.street + address.streetNumber;
 				let desc = address.province + address.city + address.district + title;
+				if(setPosition){
+					title = localStorage.getItem("locName");
+					desc = localStorage.getItem("locAddr");
+				}
 				_this.setState({
 					localInfo: {
 						title: title,
@@ -257,6 +267,7 @@ export default class App extends Component{
 				}
 				<div className="timer">{this.state.time}</div>
 				<div className="box downborder">
+					<Link to="selectarea">
 					<div className="mapContainer">
 						<div ref="smallMap" id="container" className="smallMap"/>
 						<div className="mapAdress">
@@ -273,6 +284,7 @@ export default class App extends Component{
 							}
 						</div>
 					</div>
+					</Link>
 				</div>
 				<div className="box upborder signRecord">
 					<div className="listSign">
