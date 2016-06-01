@@ -7,6 +7,8 @@
 	border-right:none;
 	background-color:$whiteColor;
 	padding-left:pxToRem(25);
+	padding-bottom:pxToRem(30);
+	overflow:hidden;
 	.row{
 		overflow:hidden;
 		padding:pxToRem(28) 0 ;
@@ -32,6 +34,16 @@
 		font-size:$fontSize2;
 		color:#4d4d4d;
 	}
+	.upload-btn{
+		width:pxToRem(140);
+		height:pxToRem(140);
+		line-height:pxToRem(140);
+		border:1px solid #b5b5b5;
+		color:#cecece;
+		font-size:pxToRem(64);
+		text-align:center;
+		float:left;
+	}
 }
 .btnBottom{
 	position:fixed;
@@ -46,7 +58,7 @@
 	font-size:$fontSize2;
 }
 .addUser{
-	padding:pxToRem(25) 0 ;
+	padding:pxToRem(30) 0  0 0;
 	color:$fontColorBlack;
 	span{
 		float:right;
@@ -56,6 +68,31 @@
 			font-size:$fontSize2;
 			font-weight:bolder;
 			margin-left:pxToRem(20);
+		}
+	}
+}
+.upload-list{
+	.item{
+		width:pxToRem(140);
+		height:pxToRem(140);
+		display:block;
+		float:left;
+		position:relative;
+		img{
+			width:100%;
+			height:100%;
+		}
+		margin-right:pxToRem(20);
+		.uploading{
+			font-size:$fontSize1;
+			color:#fff;
+			position:absolute;
+			text-align:center;
+			width:100%;
+			height:100%;
+			line-height:pxToRem(140);
+			top:0;
+			background:rgba(0,0,0,.7);
 		}
 	}
 }

@@ -24,7 +24,7 @@ html,
 	font-size:$fontSize1;
 	}
 *{box-sizing:border-box;}
-li,i,em{
+li,i,em,s{
 	font-style:normal;
 	text-decoration: inherit;
 	list-style:none;
@@ -84,4 +84,11 @@ margin:0;
 }
 input,textarea{
 	outline:none;
+	resize:none;
+}
+*{
+	-webkit-tap-highlight-color:none;
+	tap-highlight-color:none;
+	-webkit-touch-callout:none;
+	touch-callout:none;
 }
