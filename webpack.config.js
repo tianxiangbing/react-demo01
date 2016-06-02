@@ -2,7 +2,7 @@ var path = require("path");
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 console.log("+++++++++++" + process.env.NODE_ENV + "***********")
-var TEST = process.env.NODE_ENV == "test";
+var TEST = process.env.NODE_ENV == "test"||process.env.NODE_ENV == "dev";
 console.log(TEST)
 var filename = TEST ? "[name]" : "[chunkhash:8].[name]";
 console.log(filename)
@@ -16,7 +16,10 @@ var htmlPlugin = new HtmlWebpackPlugin({
     filename: '../index-publish.html',
     template: "template.html"
 });
-
+var modulesDirectories = ["web_modules", "node_modules", "bower_components","app/config"];
+if(process.env.NODE_ENV =="dev"){
+     modulesDirectories = ["web_modules", "node_modules", "bower_components","app/devconfig"];
+}
 var config = {
     entry: {
         app: ["./app/app.jsx"],
@@ -29,7 +32,7 @@ var config = {
         filename: filename + ".js"
     },
     resolve: {
-        modulesDirectories: ["web_modules", "node_modules", "bower_components"],
+        modulesDirectories: modulesDirectories,
         extensions: ['', '.js', '.jsx', 'css']
     },
     module: {

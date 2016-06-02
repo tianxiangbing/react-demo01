@@ -10,7 +10,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import Helmet from "react-helmet";
 import Styles from './_App.scss';
-import Config from '../../config/config';
+import Config from 'config';
 import cookie from 'react-cookie';
 let {Component}= React;
 import 'whatwg-fetch';
@@ -139,7 +139,7 @@ export default class App extends Component{
 		this.updateTime();
 	}
 	bindSign(){
-		Config.ajax('getDaySign').then((data)=>{
+		Config.ajax('getDaySign',"datetime="+(new Date().getTime())).then((data)=>{
 			console.log(data.result)
 			data.result = data.result.map((item)=>{
 				if((item.type == 0 || item.type == 1) && item.status != 0 ){

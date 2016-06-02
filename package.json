@@ -6,7 +6,8 @@
   "scripts": {
     "prestart": "npm install",
     "start": "set NODE_ENV=test&& node server",
-    "build": "set NODE_ENV=production&& webpack -p"
+    "build": "set NODE_ENV=production&& webpack -p",
+    "test":"set NODE_ENV=dev&& node server"
   },
   "author": "",
   "license": "ISC",
