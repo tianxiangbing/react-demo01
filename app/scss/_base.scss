@@ -1,5 +1,5 @@
 
-$baseFontSize :100;
+$baseFontSize :75;
 
 $fontFamily:'Microsoft Yahei', 'Hiragino Sans GB', Helvetica;
 
@@ -7,10 +7,11 @@ $fontFamily:'Microsoft Yahei', 'Hiragino Sans GB', Helvetica;
   @return $px/$baseFontSize * 1rem;
 }
 
-$fontSize1:12px;/*pxToRem(24)*/;
-$fontSize2:14px/*pxToRem(26)*/;
-$fontSize3:16px/*pxToRem(28)*/;
-$fontSize4:18px/*pxToRem(34)*/;
+
+$fontSize1:12px*2;/*pxToRem(24)*/;
+$fontSize2:14px*2/*pxToRem(26)*/;
+$fontSize3:16px*2/*pxToRem(28)*/;
+$fontSize4:18px*2/*pxToRem(34)*/;
 $whiteColor:#fff;
 $borderColor:#cdcdcd;
 $borderColor2:#cecece;
@@ -87,7 +88,7 @@ input,textarea{
 	resize:none;
 }
 *{
-	-webkit-tap-highlight-color:none;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
 	tap-highlight-color:none;
 	-webkit-touch-callout:none;
 	touch-callout:none;

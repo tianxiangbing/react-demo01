@@ -15,6 +15,7 @@ import cookie from 'react-cookie';
 let {Component}= React;
 import 'whatwg-fetch';
 import Dialog from '../../Component/Dialog';
+import SignList from '../../Component/SignList';
 
 export default class App extends Component{
 	constructor(props){
@@ -287,29 +288,7 @@ export default class App extends Component{
 					</Link>
 				</div>
 				<div className="box upborder signRecord">
-					<div className="listSign">
-					{
-						(this.state.recordList||[]).map((item)=>{
-							return (
-								<div className="item">
-									<div className="time">{item.formatTime}</div>
-									<div className="desc">
-										<div className="title">{item.title}</div>
-										<div className="position"><i className="iconfont icon-qiandaodingwei"/>{item.shortPlaceName}</div>
-										{
-											(()=>{
-												if(item.type==2){
-													return <div className="remark">{item.remark}</div>
-												}
-											})()
-										}
-									</div>
-								</div>
-								)
-						})
-					}
-					</div>
-					<div className="nodata">{this.state.showText}</div>
+					<SignList recordList = {this.state.recordList} showText={this.state.showText}/>
 				</div>
 				<div className="bottomButton">
 					<div className="button lbutton" onClick={this.showSign.bind(this)}>

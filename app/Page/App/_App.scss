@@ -33,6 +33,7 @@
 	bottom:0;
 	width:100%;
 	padding-right:0 !important;
+	padding-left:0 !important;
 }
 .nodata{
 	color:#999;
@@ -96,6 +97,8 @@
 
 .listSign{
 	overflow:auto;
+	background-color:$whiteColor;
+	margin-left:pxToRem(30);
 	.item{
 		clear:both;
 		.time{
