@@ -2,7 +2,6 @@ import React from 'react';
 import LocaleUtils from "react-day-picker/moment";
 import 'moment/locale/zh-cn';
 import DayPicker from 'react-day-picker';
-import 'react-day-picker/lib/style.css';
 export default class Calendar extends React.Component{
 	constructor(props){
 		super(props);
@@ -39,7 +38,7 @@ export default class Calendar extends React.Component{
 		let now = new Date(d)
 		let dateStr=now.getFullYear()+"年"+now.getMonth()+"月"
     	this.setState({title:dateStr})
-    	this.props.parentCallback();
+    	this.props.parentCallback(now);
     }
     onDayClick(e,d,obj){
     	console.log(arguments)

@@ -71,7 +71,7 @@ var config = {
         new webpack.optimize.CommonsChunkPlugin("vendor", "base.js"), htmlPlugin
     ]
 };
-if (process.env.NODE_ENV == "test") {
+if (process.env.NODE_ENV == "test"||process.env.NODE_ENV == "dev") {
     config.devtool = "source-map";
     config.output.publicPath = "/";
 }

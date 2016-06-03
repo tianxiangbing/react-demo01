@@ -1,7 +1,9 @@
 import 'whatwg-fetch';
 
+
 import '../Page/App/_App.scss';
 import '../Page/Fieldsign/_Fieldsign.scss';
+import 'react-day-picker/lib/style.css';
 import '../Page/Record/_Record.scss';
 import '../Page/SelectArea/_SelectArea.scss';
 import '../Component/_Dialog.scss';

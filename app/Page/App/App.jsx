@@ -22,7 +22,7 @@ export default class App extends Component{
 
 		super(props);
 		this.isLocated = 0;
-		this.state={disabled:true,localInfo:{},lnglatXY:null,recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false,isShowSign:false,dialog:0};
+		this.state={action:0,disabled:true,localInfo:{},lnglatXY:null,recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false,isShowSign:false,dialog:0};
 	}
 	componentWillMount(){
 		console.log('will')
@@ -222,7 +222,8 @@ export default class App extends Component{
 			placeName:this.state.localInfo.desc,
 			shortPlaceName:this.state.localInfo.title,
 			longitude:this.state.lnglatXY[0],
-			latitude:this.state.lnglatXY[1]
+			latitude:this.state.lnglatXY[1],
+			action:this.state.action
 		}
 		Config.ajax("sign",
 		{

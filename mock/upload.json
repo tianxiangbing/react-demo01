@@ -1,8 +1,8 @@
 {
-  "code":200,
-  "success":true,
-  "data":{
-     "index":"0",
-     "url":"http:\/\/7xnmmr.com2.z0.glb.qiniucdn.com\/0f9a09a6-fa7f-4f50-abf8-faea17a33b0c"
-  }
+	"code": 200,
+	"data": {
+		"index": "0",
+		"url": "http://7xnmmr.com2.z0.glb.qiniucdn.com/1464939347101"
+	},
+	"success": true
 }

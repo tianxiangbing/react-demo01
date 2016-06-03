@@ -11,7 +11,7 @@ import React  from 'react';
 import Helmet from "react-helmet";
 //import Styles from './_FieldSign.scss';
 let {Component}=React;
-import Config from '../../config/config';
+import Config from 'config';
 
 //外勤签到
 export default class Fieldsign extends Component{
@@ -42,7 +42,7 @@ export default class Fieldsign extends Component{
 			longitude:this.outInfo.locLng,
 			latitude:this.outInfo.locLat,
 			remark:this.refs.remark.value,
-			images:this.imgList,
+			images:JSON.stringify(this.imgList) ,
 			authList:this.state.authList
 		}
 		console.log(data)
@@ -53,7 +53,8 @@ export default class Fieldsign extends Component{
 		    'Content-Type': 'application/json'
 		  },
 		  method: 'POST',
-		  body:  JSON.stringify(data)
+		  body:  JSON.stringify(data),
+		  urlParam:"action=1"
 		}).then((res)=>{
 			if(res.code==200){
 				//location.href="/";
@@ -69,7 +70,7 @@ export default class Fieldsign extends Component{
 					return {data:item,uploaded:false};
 				});
 				console.log(data)
-				data = data.concat(this.state.imgList);
+				data = this.state.imgList.concat(data);
 				this.setState({imgList:data});
 				if(data.length>=4){
 					this.setState({showUpload:false});
@@ -82,23 +83,23 @@ export default class Fieldsign extends Component{
 	upload() {
 		let _this = this;
 		this.state.imgList.forEach((item, index) => {
-			if (!item.uploaded) {
+			if (!item.uploaded &&!item.uploading) {
 				let param = {
-					index: index,
-					imageData: item
+					index: index.toString(),
+					imageData: item.data
 				}
-				Config.ajax('upload'/*, {
-					headers: {
+				item.uploading=true;
+				Config.ajax('upload', {
+					/*headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json'
-					},
+					},*/
 					method: 'POST',
-					body: JSON.stringify(param)
-				}*/).then((res) => {
+					body:JSON.stringify(param)
+				}).then((res) => {
 					if (res.code == 200) {
 						let data = res.data;
 						let i = data.index;
-						debugger;
 						_this.state.imgList[i].uploaded = true;
 						_this.setState({
 							imgList: _this.state.imgList

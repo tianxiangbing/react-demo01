@@ -9,7 +9,7 @@
 import React from 'react';
 let {Component} = React;
 import Helmet from "react-helmet";
-import Config from '../../config/config';
+import Config from 'config';
 import Calendar from '../../Component/Calendar';
 //import Styles from './_Record.scss';
 import SignList from '../../Component/SignList';
@@ -22,14 +22,14 @@ export default class Record extends Component{
 	}
 	componentDidMount(){
 		let now = new Date();
+		this.getMonthDate(now);
+	}
+	getMonthDate(d){
 		let _this = this;
+		let now = new Date(d);
 		let dateStr=now.getFullYear()+"年"+(now.getMonth()+1)+"月"
     	this.setState({title:dateStr})
-		this.getMonthDate();
-	}
-	getMonthDate(){
-		let _this = this;
-		Config.ajax('historyOfMonth',"").then((res)=>{
+		Config.ajax('historyOfMonth',"dateTime="+(new Date(d).getTime())).then((res)=>{
 			if(res.code ==200){
 				_this.setState({list:res.data.list,isReady:true});
 				_this.tab(0 ,new Date());
@@ -43,10 +43,10 @@ export default class Record extends Component{
     	console.log(date)
     	date = new Date(date).getTime();
     	this.setState({currentDate:date,focus:index});
-    	let param = 'dateTime='+date;
+    	let param = "dateTime="+date;
     	if(index ==0){
 	    	Config.ajax('getDaySign',param).then((data)=>{
-	    		this.renderList(data.result,'您还没有签到哦~');
+	    		this.renderList(data.data.list,'您还没有签到哦~');
 			});
 		}else{
 			//他人外勤
