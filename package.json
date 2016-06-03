@@ -7,7 +7,7 @@
     "prestart": "npm install",
     "start": "set NODE_ENV=test&& node server",
     "build": "set NODE_ENV=production&& webpack -p",
-    "test":"set NODE_ENV=dev&& node server"
+    "test": "set NODE_ENV=dev&& node server"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +23,7 @@
     "html-webpack-plugin": "^2.16.1",
     "moment": "^2.13.0",
     "node-sass": "^3.5.3",
+    "qwest": "^4.4.3",
     "react": "^15.0.1",
     "react-cookie": "^0.4.6",
     "react-date-picker": "^5.0.9-alpha",

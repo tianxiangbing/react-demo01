@@ -9,10 +9,9 @@
 import React from 'react';
 let {Component} = React;
 import Helmet from "react-helmet";
-import 'whatwg-fetch';
 import Config from '../../config/config';
 import Calendar from '../../Component/Calendar';
-import Styles from './_Record.scss';
+//import Styles from './_Record.scss';
 import SignList from '../../Component/SignList';
 
 let date = '2014-10-10' //or Date.now()

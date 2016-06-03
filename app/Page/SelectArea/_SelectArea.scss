@@ -1,14 +1,14 @@
 @import 'base';
 .bigMap{
-	height:pxToRem(600);
+	height:300px;
 	z-index: 2;
 }
 .panel{
 	position:absolute;
 	top:0;
 	left:0;
-	padding-top:pxToRem(600);
-	padding-bottom:pxToRem(90);
+	padding-top:300px;
+	padding-bottom:45px;
 	overflow:auto;
 	width:100%;
 	height:100%;
@@ -21,6 +21,7 @@ display: none !important;
 .amap_lib_placeSearch{
 	border-left:none;
 	border-right:none;
+	/* font-size:$fontSize1 !important; */
 }
 .amap_lib_placeSearch_list{
 	padding:0 0 0 pxToRem(30);
@@ -42,13 +43,25 @@ display: none !important;
 				color:#9b9b9b;
 			}
 		}
+		i{
+			display:none;
+		}
 		&.active{
-			background-color: transparent;
-			background:url(right.png) no-repeat no-repeat pxToRem(658) center;
-			-webkit-background-size:pxToRem(32) pxToRem(32);
-			background-size:pxToRem(32) pxToRem(32);
+		/* 	background-color: transparent;
+		background:url(right.png) no-repeat no-repeat right center;
+		-webkit-background-size:16px 16px;
+		background-size:16px 16px; */
 			.poi-name{
 				color:#f95048 !important;
+			}
+			i{
+				display:block;
+				width:16px;
+				height:16px;
+				position:absolute;
+				top:22px;
+				right:15px;
+				color:#f55d4f;
 			}
 		}
 		&.active:last{
@@ -61,4 +74,11 @@ display: block !important;
 }
 .markerShow{
 display: block !important;
+}
+.selectArea{
+	.btnBottom{
+		  height: 45px;
+		  line-height: 45px;
+		  font-size: 14px; 
+	}
 }

@@ -9,7 +9,7 @@
 "use strict";
 import React  from 'react';
 import Helmet from "react-helmet";
-import Styles from './_FieldSign.scss';
+//import Styles from './_FieldSign.scss';
 let {Component}=React;
 import Config from '../../config/config';
 
@@ -56,7 +56,8 @@ export default class Fieldsign extends Component{
 		  body:  JSON.stringify(data)
 		}).then((res)=>{
 			if(res.code==200){
-				location.href="/";
+				//location.href="/";
+				history.back()
 			}
 		})
 	}

@@ -1,5 +1,11 @@
 import 'whatwg-fetch';
 
+import '../Page/App/_App.scss';
+import '../Page/Fieldsign/_Fieldsign.scss';
+import '../Page/Record/_Record.scss';
+import '../Page/SelectArea/_SelectArea.scss';
+import '../Component/_Dialog.scss';
+
 let Config = {
 	ajax: function(url,param) {
 		var args = Array.prototype.slice.call(arguments, 0);

@@ -16,9 +16,9 @@ var htmlPlugin = new HtmlWebpackPlugin({
     filename: '../index-publish.html',
     template: "template.html"
 });
-var modulesDirectories = ["web_modules", "node_modules", "bower_components","app/config"];
-if(process.env.NODE_ENV =="dev"){
-     modulesDirectories = ["web_modules", "node_modules", "bower_components","app/devconfig"];
+var modulesDirectories = ["web_modules", "node_modules", "bower_components","app/devconfig"];
+if(process.env.NODE_ENV =="test"){
+     modulesDirectories = ["web_modules", "node_modules", "bower_components","app/config"];
 }
 var config = {
     entry: {

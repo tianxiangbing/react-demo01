@@ -1,6 +1,6 @@
 import React from 'react';
-import Styles from './Dialog.scss';
-
+//import Styles from './Dialog.scss';
+//
 let {Component} = React;
 
 export default class Dialog extends Component{

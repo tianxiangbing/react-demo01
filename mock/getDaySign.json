@@ -1,7 +1,7 @@
 {
 	"code": 200,
 	"description": "获取签到列表成功 !",
-	"result": [{
+	"data": {"list":[{
 		"id": 93849,
 		"orgId": "57171554250",
 		"orgName": "讯盟（测试）",
@@ -56,4 +56,5 @@
 		"status": 0,
 		"isCrossDay": 0
 	}]
+	}
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 let {Component} = React;
-import Styles from './SelectArea.scss';
+//import Styles from './SelectArea.scss';
 
 export default class SelectArea extends Component{
 	constructor(props){
@@ -11,7 +11,11 @@ export default class SelectArea extends Component{
 		this.state={list:[]};
 	}
 	componentDidMount(){
+		var scale = 1 ;
+		document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+		document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';
 		this.initMap();
+
 	}
 	initMap(){
 		var _this = this;
@@ -55,7 +59,9 @@ export default class SelectArea extends Component{
             localStorage.setItem('locName', this.currentAddr.name);
             localStorage.setItem('locAddr', this.currentAddr.address);
             localStorage.setItem('lnglatXY',JSON.stringify([this.currentAddr.location.lng,this.currentAddr.location.lat]));
-            location.href="index.html";
+            //location.href="index.html";
+
+			history.back()
         }
 	}
 	checkAddress(item,index){
@@ -71,7 +77,7 @@ export default class SelectArea extends Component{
 	}
 	render(){
 		return (
-			<div>
+			<div className="selectArea">
 				<div ref="bigMap" id="bigMapcontainer" className="bigMap"/>
 				<div ref="panel" className="panel" id="panel">
 					<div className="amap_lib_placeSearch">    
@@ -85,7 +91,8 @@ export default class SelectArea extends Component{
 									</h3>                
 									<div className="poi-info">                	
 									<p className="poi-addr">地址：{item.address}</p>                
-									</div>            
+									</div> 
+									<i className="iconfont icon-right-ok"/>           
 								</li>
 								)
 							})}

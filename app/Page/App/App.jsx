@@ -9,24 +9,35 @@
 import React from 'react';
 import {Link} from 'react-router';
 import Helmet from "react-helmet";
-import Styles from './_App.scss';
+//import Styles from './_App.scss';
 import Config from 'config';
 import cookie from 'react-cookie';
 let {Component}= React;
-import 'whatwg-fetch';
+//import 'whatwg-fetch';
 import Dialog from '../../Component/Dialog';
 import SignList from '../../Component/SignList';
 
 export default class App extends Component{
 	constructor(props){
+
 		super(props);
 		this.isLocated = 0;
-		this.state={localInfo:{},lnglatXY:null,recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false,isShowSign:false,dialog:0};
+		this.state={disabled:true,localInfo:{},lnglatXY:null,recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false,isShowSign:false,dialog:0};
+	}
+	componentWillMount(){
+		console.log('will')
+		var scale = 1 / devicePixelRatio;
+		document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+		document.documentElement.style.fontSize = document.documentElement.clientWidth / 10 + 'px';
 	}
 	getLngXY(){
 		return Config.native('getPosition')
 	}
-	initMap(){
+	initMap(e){
+		if(e){
+			e.preventDefault();
+			e.stopPropagation();
+		}
 		let lnglatXY;
 		let map = new AMap.Map('container');
 		let _this =this;
@@ -42,6 +53,7 @@ export default class App extends Component{
 		this.isLocated = 0;
 		this.getLngXY().then((res) => {
 			if(res.code != 200)return;
+			_this.setState({disabled:false});
 			this.isLocated = 1;
 			map.setZoom(10);
 			lnglatXY = res.data;
@@ -79,7 +91,7 @@ export default class App extends Component{
 				let address = data.regeocode.addressComponent; //返回地址描述
 				let title = address.township + address.street + address.streetNumber;
 				let desc = address.province + address.city + address.district + title;
-				if(setPosition){
+				if(setPosition&& localStorage.getItem("locName")){
 					title = localStorage.getItem("locName");
 					desc = localStorage.getItem("locAddr");
 				}
@@ -139,9 +151,10 @@ export default class App extends Component{
 		this.updateTime();
 	}
 	bindSign(){
-		Config.ajax('getDaySign',"datetime="+(new Date().getTime())).then((data)=>{
-			console.log(data.result)
-			data.result = data.result.map((item)=>{
+		Config.ajax('getDaySign',"dateTime="+(new Date().getTime())).then((data)=>{
+			data = data.data.list;
+    		this.setState({"recordList":data});
+			data.result = data.map((item)=>{
 				if((item.type == 0 || item.type == 1) && item.status != 0 ){
 					if(item.status!=4){
 						item.className ="error";
@@ -166,10 +179,10 @@ export default class App extends Component{
 				}
 				return item;
 			});
-			if(data.result.length==0){
+			if(data.length==0){
 				this.setState({'showText':'您还没有签到哦~'})
 			}else{
-				this.setState({'showText':'',"recordList":data.result});
+				this.setState({'showText':''});
 			}
 		});
 	}
@@ -178,17 +191,16 @@ export default class App extends Component{
 	}
 	updateTime(){
 		if(!this.state.currCorp.orgId)return;
-		let param={
+		/*let param={
 			orgId:this.state.currCorp.orgId
-		};
-		Config.ajax('getTime',JSON.stringify(param)).then((data)=>{
+		};*/
+		Config.ajax('getTime',''/*,JSON.stringify(param)*/).then((data)=>{
 			console.log(data);
 			if(!!data.redirect){
                 location.href = data.redirect;
             }
             if(data.code == 200){
-                var result = data.result[0];
-                this.setState({'time':result});
+                this.setState({'time':data.data.time});
             }else{
                 //AlertBox.alerts('获取时间异常');
                 this.setState({dialog:{show:true,msg:"获取时间异常",type:"alert"}});
@@ -197,11 +209,13 @@ export default class App extends Component{
 	}
 	//显示上下班
 	showSign(){
-		this.setState({isShowSign:true});
+		if(!this.state.disabled){
+			this.setState({isShowSign:true});
+		}
 	}
 	sign(type){
 		let data ={
-			token:"7d171a5fd4954f0c34345c2bbe3f8932",
+			//token:"7d171a5fd4954f0c34345c2bbe3f8932",
 			orgId:this.state.currCorp.orgId,
 			orgName:this.state.currCorp.orgName,
 			type:type,
@@ -231,7 +245,12 @@ export default class App extends Component{
 		console.log(this.state.dialog)
 		return <Dialog stage={this} {...this.state.dialog}/>
 	}
-	setLocalStorage(){
+	setLocalStorage(e){
+		if(this.state.disabled){
+			e.preventDefault();
+			e.stopPropagation();
+			return false;
+		}
 		var outInfo = {
             'orgId':this.state.currCorp.orgId,
             'orgName': this.state.currCorp.orgName,
@@ -247,45 +266,47 @@ export default class App extends Component{
 		return (
 			<div className="body">
 				<Helmet title="签到"/>
-				<div className="orgInfo">
-					<div className="focus" onClick={this.expandOrg.bind(this)}>{this.state.currCorp.orgName} <i className={this.state.expand?"triangle up":"triangle down"}/></div>
-					{
-						this.state.expand?
-					<div className="orgList">
-					{
-						(this.state.corpList||[]).map((item)=>{
-							return <div className={item.orgId==this.state.currCorp.orgId?"focus":""} onClick={this.select.bind(this,item)}>{item.orgName}</div>
-						})
-					}
-					</div>
-					:null
-					}
-				</div>
-				{
-				this.state.expand?
-				<div className="mask">
-				</div>:null
-				}
-				<div className="timer">{this.state.time}</div>
-				<div className="box downborder">
-					<Link to="selectarea">
-					<div className="mapContainer">
-						<div ref="smallMap" id="container" className="smallMap"/>
-						<div className="mapAdress">
-							{
-								(()=>{
-									if(this.state.localInfo.status){
-										return (<div><h2>{this.state.localInfo.title}</h2>
-										<p>{this.state.localInfo.desc}</p>
-										</div>)
-									}else{
-										return (<div><h2>定位失败</h2><p>地点获取失败，请点击<span className="replay" onClick={this.initMap.bind(this)} >这里</span>重试</p></div>)
-									}
-								})()
-							}
+				<div className="header">
+					<div className="orgInfo">
+						<div className="focus" onClick={this.expandOrg.bind(this)}>{this.state.currCorp.orgName} <i className={this.state.expand?"triangle up":"triangle down"}/></div>
+						{
+							this.state.expand?
+						<div className="orgList">
+						{
+							(this.state.corpList||[]).map((item)=>{
+								return <div className={item.orgId==this.state.currCorp.orgId?"focus":""} onClick={this.select.bind(this,item)}>{item.orgName}</div>
+							})
+						}
 						</div>
+						:null
+						}
 					</div>
-					</Link>
+					{
+					this.state.expand?
+					<div className="mask">
+					</div>:null
+					}
+					<div className="timer">{this.state.time}</div>
+					<div className="box downborder">
+						<Link to="selectarea">
+						<div className="mapContainer">
+							<div ref="smallMap" id="container" className="smallMap"/>
+							<div className="mapAdress">
+								{
+									(()=>{
+										if(this.state.localInfo.status){
+											return (<div><h2>{this.state.localInfo.title}</h2>
+											<p>{this.state.localInfo.desc}</p>
+											</div>)
+										}else{
+											return (<div  onClick={this.initMap.bind(this)}><h2>定位失败</h2><p>地点获取失败，请点击<span className="replay" >这里</span>重试</p></div>)
+										}
+									})()
+								}
+							</div>
+						</div>
+						</Link>
+					</div>
 				</div>
 				<div className="box upborder signRecord">
 					<SignList recordList = {this.state.recordList} showText={this.state.showText}/>
