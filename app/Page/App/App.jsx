@@ -22,7 +22,8 @@ export default class App extends Component{
 
 		super(props);
 		this.isLocated = 0;
-		this.state={action:0,disabled:true,localInfo:{},lnglatXY:null,recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false,isShowSign:false,dialog:0};
+		this.action = 0;
+		this.state={disabled:true,localInfo:{},lnglatXY:null,recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false,isShowSign:false,dialog:0};
 	}
 	componentWillMount(){
 		console.log('will')
@@ -153,12 +154,12 @@ export default class App extends Component{
 	bindSign(){
 		Config.ajax('getDaySign',"dateTime="+(new Date().getTime())).then((data)=>{
 			data = data.data.list;
-    		this.setState({"recordList":data});
 			data.result = data.map((item)=>{
+				console.log(item)
 				if((item.type == 0 || item.type == 1) && item.status != 0 ){
 					if(item.status!=4){
 						item.className ="error";
-					}else if(item.status != 1 && d[j].status != 2){
+					}else if(item.status != 1 && item.status != 2){
 						item.className ="loc-error";
 					}
 				}
@@ -179,6 +180,7 @@ export default class App extends Component{
 				}
 				return item;
 			});
+			this.setState({"recordList":data});
 			if(data.length==0){
 				this.setState({'showText':'您还没有签到哦~'})
 			}else{
@@ -214,6 +216,7 @@ export default class App extends Component{
 		}
 	}
 	sign(type){
+		let _this =this;
 		let data ={
 			//token:"7d171a5fd4954f0c34345c2bbe3f8932",
 			orgId:this.state.currCorp.orgId,
@@ -222,8 +225,7 @@ export default class App extends Component{
 			placeName:this.state.localInfo.desc,
 			shortPlaceName:this.state.localInfo.title,
 			longitude:this.state.lnglatXY[0],
-			latitude:this.state.lnglatXY[1],
-			action:this.state.action
+			latitude:this.state.lnglatXY[1]
 		}
 		Config.ajax("sign",
 		{
@@ -232,10 +234,21 @@ export default class App extends Component{
 		    'Content-Type': 'application/json'
 		  },
 		  method: 'POST',
-		  body:  JSON.stringify(data)
+		  body:  JSON.stringify(data),
+		  urlParam:"action="+this.action
 		}).then((res)=>{
 			if(res.code==200){
 					this.bindSign();
+					_this.action =0;//reset
+			}else if(res.code==1005){
+				//地点异常
+				if(!confirm("地点异常？确认打卡")){
+					location.href="#ortanomalie";
+				}else{
+					//强签
+					_this.action = 1;
+					_this.sign(type);
+				}
 			}
 		})
 	}

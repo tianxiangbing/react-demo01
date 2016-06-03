@@ -61,7 +61,7 @@ export default class Record extends Component{
 			if((item.type == 0 || item.type == 1) && item.status != 0 ){
 				if(item.status!=4){
 					item.className ="error";
-				}else if(item.status != 1 && d[j].status != 2){
+				}else if(item.status != 1 && item.status != 2){
 					item.className ="loc-error";
 				}
 			}
