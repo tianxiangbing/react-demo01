@@ -115,7 +115,7 @@ export default class App extends Component{
 			this.setState({corpList:data});
 			let orgId= cookie.load('orgId');
 			let currCorp = {};
-			if(orgId){
+			if(orgId && orgId !="undefined"){
 				data.forEach((item)=>{
 					if(orgId==item.orgId){
 						currCorp = item;
@@ -243,6 +243,7 @@ export default class App extends Component{
 			}else if(res.code==1005){
 				//地点异常
 				if(!confirm("地点异常？确认打卡")){
+					_this.setLocalStorage.bind(_this);
 					location.href="#ortanomalie";
 				}else{
 					//强签
@@ -323,7 +324,9 @@ export default class App extends Component{
 					</div>
 				</div>
 				<div className="box upborder signRecord">
+					<div className="pdbtn">
 					<SignList recordList = {this.state.recordList} showText={this.state.showText}/>
+					</div>
 				</div>
 				<div className="bottomButton">
 					<div className="button lbutton" onClick={this.showSign.bind(this)}>

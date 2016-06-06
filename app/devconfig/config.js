@@ -67,7 +67,7 @@ let Config = {
 				break;
 			}
 			case 'historyOfMonth':{
-				return domain+'get/out/historyOfMonth.json'+param
+				return domain+'get/historyOfMonth.json'+param
 			}
 			case 'historyOfDay':{
 				//他人外勤

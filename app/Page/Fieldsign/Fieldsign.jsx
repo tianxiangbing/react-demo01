@@ -33,7 +33,6 @@ export default class Fieldsign extends Component{
 	}
 	submit(){
 		let data ={
-			token:"7d171a5fd4954f0c34345c2bbe3f8932",
 			orgId:this.outInfo.orgId,
 			orgName:this.outInfo.orgName,
 			type:2,

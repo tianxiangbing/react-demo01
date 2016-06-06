@@ -192,3 +192,17 @@
 		}
 	}
 }
+.imgList{
+	overflow: hidden;
+	margin-top:pxToRem(20);
+	img{
+		width:pxToRem(100);
+		height:pxToRem(100);
+		display:inline-block;
+		margin-right:pxToRem(15);
+	}
+}
+.pdbtn{
+	padding-bottom:pxToRem(160);
+	background-color: #fff;
+}
