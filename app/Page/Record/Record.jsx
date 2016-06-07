@@ -19,6 +19,9 @@ export default class Record extends Component{
 	constructor(props){
 		super(props);
 		this.state={title:'',list:[],isReady:false,expand:true,recordList:[],showText:"",focus:0,currentDate:new Date()}
+		var scale = 1 / devicePixelRatio;
+		document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+		document.documentElement.style.fontSize = document.documentElement.clientWidth / 10 + 'px';
 	}
 	componentDidMount(){
 		let now = new Date();
@@ -95,7 +98,7 @@ export default class Record extends Component{
 	render(){
 		return (
 			<div className="body">
-				<Helmet title="记录" />
+				<Helmet title="签到记录" />
 				<div className="topContainer">
 					<div className="dateContainer"> 
 					{this.state.expand?<Calendar parentDayClick={this.parentDayClick.bind(this)} list = {this.state.list} parentCallback={this.getMonthDate.bind(this)} myTitle={this.state.title}/>:undefined}

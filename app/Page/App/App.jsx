@@ -19,7 +19,7 @@ import SignList from '../../Component/SignList';
 
 export default class App extends Component{
 	constructor(props){
-
+		localStorage.removeItem('outInfo');
 		super(props);
 		this.isLocated = 0;
 		this.action = 0;
@@ -30,6 +30,9 @@ export default class App extends Component{
 		var scale = 1 / devicePixelRatio;
 		document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
 		document.documentElement.style.fontSize = document.documentElement.clientWidth / 10 + 'px';
+		/*var scale = 1 ;
+		document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+		document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';*/
 	}
 	getLngXY(){
 		return Config.native('getPosition')
@@ -56,15 +59,15 @@ export default class App extends Component{
 			if(res.code != 200)return;
 			_this.setState({disabled:false});
 			this.isLocated = 1;
-			map.setZoom(10);
 			lnglatXY = res.data;
 			let setPosition = localStorage.getItem('lnglatXY')
 			if(setPosition){
-				map.setCenter(JSON.parse(setPosition));
+				map.setZoomAndCenter(15,JSON.parse(setPosition));
 				localStorage.removeItem('lnglatXY');
 			}else{
-				map.setCenter(lnglatXY);
+				map.setZoomAndCenter(15,lnglatXY);
 			}
+			//map.setZoom(3);
 			regeocoder();
 			_this.setState({lnglatXY:lnglatXY});
             localStorage.setItem('lnglatXY',JSON.stringify(lnglatXY));
@@ -85,7 +88,7 @@ export default class App extends Component{
 					position: lnglatXY,
 					offset: new AMap.Pixel(-11, -22)
 				});
-				map.setFitView();
+				//map.setFitView();
 			}
 
 			function geocoder_CallBack(data) {
@@ -108,10 +111,11 @@ export default class App extends Component{
 		});
 	}
 	initCorp(){
-		Config.native("getorglist").then((res)=>{
+		Config.native("getorglist")/*.then((res)=>{
 			console.log(res)
 			return res.data;
-		}).then((data)=>{
+		})*/.then((data)=>{
+			data = data.data;
 			this.setState({corpList:data});
 			let orgId= cookie.load('orgId');
 			let currCorp = {};
@@ -127,11 +131,11 @@ export default class App extends Component{
 				//this.setState({currCorp:data[0]});
 			}
 			//this.setState({currCorp:currCorp});
-			//cookie.save('orgId', currCorp.orgId, { path: '/' });
 			this.select(currCorp);
 		});
 	}
 	componentDidMount(){
+		let _this = this;
 		this.initMap();
 		this.initCorp();
 		this.updateTime();
@@ -139,15 +143,17 @@ export default class App extends Component{
 			this.updateTime();
 			this.initMap();
 		},1000*60);
+
 	}
 	componentWillUnmount() {
 	    this.timer&&clearInterval(this.timer);  
 	}
 	select(obj){
-		console.log(arguments)
 		this.state.currCorp=obj;
 		this.setState({currCorp:obj,expand:false});
-		cookie.save('orgId', obj.orgId, { path: '/' });
+		//cookie.save('orgId', obj.orgId, { path: '/' });
+		localStorage.setItem('orgId',obj.orgId);
+		localStorage.setItem('orgName',obj.orgName);
 		this.bindSign();
 		this.updateTime();
 	}
@@ -227,6 +233,10 @@ export default class App extends Component{
 			longitude:this.state.lnglatXY[0],
 			latitude:this.state.lnglatXY[1]
 		}
+		_this.setLocalStorage();
+		//test
+		location.href="#ortanomalie";
+		return false;
 		Config.ajax("sign",
 		{
 		  headers: {
@@ -242,16 +252,21 @@ export default class App extends Component{
 					_this.action =0;//reset
 			}else if(res.code==1005){
 				//地点异常
-				if(!confirm("地点异常？确认打卡")){
-					_this.setLocalStorage.bind(_this);
-					location.href="#ortanomalie";
-				}else{
-					//强签
-					_this.action = 1;
-					_this.sign(type);
-				}
+				Config.native('confirm',{title:"地点异常","desc":"当前地点不在公司范围内","ok":"确定打卡","cancel":"报告原因"}).then((res)=>{
+					if(res.data=="cancel"){
+						_this.setLocalStorage();
+						location.href="#ortanomalie";
+					}else if(res.data =="ok"){
+						//强签
+						_this.action = 1;
+						_this.sign(type);
+					}
+				})
 			}
 		})
+	}
+	hideOrgList(){
+		this.setState({expand:false})
 	}
 	hideSign(){
 		this.setState({isShowSign:false});
@@ -298,7 +313,7 @@ export default class App extends Component{
 					</div>
 					{
 					this.state.expand?
-					<div className="mask">
+					<div className="mask" onClick={this.hideOrgList.bind(this)}>
 					</div>:null
 					}
 					<div className="timer">{this.state.time}</div>

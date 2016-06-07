@@ -8,10 +8,10 @@ $fontFamily:'Microsoft Yahei', 'Hiragino Sans GB', Helvetica;
 }
 
 
-$fontSize1:12px*2;/*pxToRem(24)*/;
-$fontSize2:14px*2/*pxToRem(26)*/;
-$fontSize3:16px*2/*pxToRem(28)*/;
-$fontSize4:18px*2/*pxToRem(34)*/;
+$fontSize1:/*12px*2;*/pxToRem(24);
+$fontSize2:/*14px*2*/pxToRem(26);
+$fontSize3:/*16px*2*/pxToRem(28);
+$fontSize4:/*18px*2*/pxToRem(34);
 $whiteColor:#fff;
 $borderColor:#cdcdcd;
 $borderColor2:#cecece;

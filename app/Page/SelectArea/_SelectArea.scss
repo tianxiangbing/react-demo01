@@ -8,7 +8,7 @@
 	top:0;
 	left:0;
 	padding-top:300px;
-	padding-bottom:45px;
+	padding-bottom:pxToRem(90);
 	overflow:auto;
 	width:100%;
 	height:100%;
@@ -21,7 +21,14 @@ display: none !important;
 .amap_lib_placeSearch{
 	border-left:none;
 	border-right:none;
-	/* font-size:$fontSize1 !important; */
+	font-size:$fontSize1 !important; 
+	p.poi-addr{
+		line-height: 1.6 !important; 
+	}
+}
+.amap_lib_placeSearch .poibox .poi-title{
+	font-size:$fontSize2 !important; 
+	line-height: 1.6;
 }
 .amap_lib_placeSearch_list{
 	padding:0 0 0 pxToRem(30);
@@ -76,9 +83,9 @@ display: block !important;
 display: block !important;
 }
 .selectArea{
-	.btnBottom{
+	.btnBottom{/* 
 		  height: 45px;
-		  line-height: 45px;
-		  font-size: 14px; 
+		  line-height: 45px; */
+		  font-size: $fontSize1; 
 	}
 }

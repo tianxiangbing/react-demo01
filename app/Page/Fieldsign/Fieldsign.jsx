@@ -63,7 +63,7 @@ export default class Fieldsign extends Component{
 	}
 	//选择图片
 	selectPictrues(){
-		Config.native('selectPictures',this.state.imgList.length +"&4").then((res)=>{
+		Config.native('selectPictures',{count:this.state.imgList.length,sum:4}).then((res)=>{
 			if(res.code ==200){
 				let data = res.data.map((item)=>{
 					return {data:item,uploaded:false};
@@ -111,7 +111,7 @@ export default class Fieldsign extends Component{
 	}
 	//选择人员
 	addUser(){
-		Config.native('selectPeopleIOS','500&' + this.outInfo.orgId + '&' + this.outInfo.orgName).then((res)=>{
+		Config.native('selectPeopleIOS').then((res)=>{
 			let data = res.data;
 			data = data.map((item)=>{
 				return {authId:item.uid,authName:item.name};
@@ -122,6 +122,7 @@ export default class Fieldsign extends Component{
 	render(){
 		return (
 			<div className="body">
+				<Helmet title="外勤签到" />
 				<div className="formBox">
 					<div className="row">
 						<div className="label">签到地点:</div>

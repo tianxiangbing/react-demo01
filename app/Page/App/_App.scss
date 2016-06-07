@@ -103,6 +103,9 @@
 	background-color:$whiteColor;
 	margin-left:pxToRem(30);
 	.item{
+		&.error,&.loc-error{
+			color:#fa565a;
+		}
 		clear:both;
 		.time{
 			float:left;

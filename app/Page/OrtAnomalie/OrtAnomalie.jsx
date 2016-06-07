@@ -24,7 +24,6 @@ export default class OrtAnomalie extends Component{
 			images:JSON.stringify(this.imgList) ,
 			authList:this.state.authList
 		}
-		console.log(data)
 		Config.ajax("sign",
 		{
 		  headers: {
@@ -54,12 +53,11 @@ export default class OrtAnomalie extends Component{
 	}
 	//选择图片
 	selectPictrues(){
-		Config.native('selectPictures',this.state.imgList.length +"&4").then((res)=>{
+		Config.native('photo').then((res)=>{
 			if(res.code ==200){
-				let data = res.data.map((item)=>{
+				let data = [res.data].map((item)=>{
 					return {data:item,uploaded:false};
 				});
-				console.log(data)
 				data = this.state.imgList.concat(data);
 				this.setState({imgList:data});
 				if(data.length>=4){

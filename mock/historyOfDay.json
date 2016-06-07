@@ -1,25 +1,57 @@
 {
-  "code":200,
-  "success":true,
-  "data":{
-     "list":[{
-		"id": 93849,
-		"orgId": "57171554250",
-		"orgName": "讯盟（测试）",
-		"uid": "10101001610432",
-		"userName": "田想兵",
-		"type": 2,
-		"formatTime": "13:49",
-		"time": 1464328150124,
-		"remark": "",
-		"placeName": "浙江省杭州市西湖区蒋村街道文二西路798号",
-		"shortPlaceName": "蒋村街道文二西路798号",
-		"longitude": 120.0690527344,
-		"latitude": 30.2819118924,
-		"images": [],
-		"authList": [],
-		"status": 0,
-		"isCrossDay": 0
-	}]
-  }
+	"code": 200,
+	"data": {
+		"list": [{
+			"latitude": 30.2819289822,
+			"longitude": 120.0690866428,
+			"yearMonth": 201606,
+			"day": 6,
+			"orgId": "57171554250",
+			"placeName": "蒋村街36号",
+			"shortPlaceName": "银河餐厅",
+			"remark": "我！一",
+			"uid": "82977736",
+			"orgName": " 讯盟（测试）",
+			"id": 93873,
+			"userIp": "10.1.40.6",
+			"images": "[]",
+			"time": 1465207829691,
+			"type": 2,
+			"status": 4
+		}, {
+			"latitude": 30.2818986003,
+			"longitude": 120.0692450629,
+			"yearMonth": 201606,
+			"day": 6,
+			"orgId": "57171554250",
+			"placeName": "蒋村街36号",
+			"shortPlaceName": "银河餐厅",
+			"uid": "82977736",
+			"orgName": " 讯盟（测试）",
+			"id": 93881,
+			"userIp": "10.1.40.6",
+			"images": "[]",
+			"time": 1465207838777,
+			"type": 0,
+			"status": 4
+		}, {
+			"latitude": 30.2818986003,
+			"longitude": 120.0692450629,
+			"yearMonth": 201606,
+			"day": 6,
+			"orgId": "57171554250",
+			"placeName": "蒋村街36号",
+			"shortPlaceName": "银河餐厅",
+			"remark": "这么晚",
+			"uid": "82977736",
+			"orgName": " 讯盟（测试）",
+			"id": 84088,
+			"userIp": "10.1.40.6",
+			"images": "[\\\"http://7xnmmr.com2.z0.glb.qiniucdn.com/1465207846183\\\"]",
+			"time": 1465207854919,
+			"type": 2,
+			"status": 4
+		}]
+	},
+	"success": true
 }
