@@ -49,7 +49,8 @@ let Config = {
 	},
 	makeUrl:function(key,param){
 		//alert(document.cookie)
-		var domain = 'http://10.1.40.6/signin/api/';
+		CONFIG.domain=CONFIG.domain||"http://10.1.40.6/";
+		var domain = CONFIG.domain+'signin/api/';
 		var orgId = cookie.load('orgId') || localStorage.getItem('orgId');
 		/*if(typeof param != "string"){
 			param='?debug=true&uid='+cookie.load('userId')+'&orgId='+orgId;

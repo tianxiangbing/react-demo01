@@ -2,14 +2,28 @@ import React from 'react';
 let {Component} = React;
 import Helmet from "react-helmet";
 import './_OrtAnomalie.scss';
+import Dialog from '../../Component/Dialog';
 import Config from 'config';
 
 export default class OrtAnomalie extends Component{
 	constructor(props){
 		super(props)
 		this.imgList = [];
+		this.suprise = false;
 		this.outInfo=JSON.parse(localStorage.getItem('outInfo'));
-		this.state={imgList:[],text:null,maxlength:50,showUpload:true};
+		this.state={imgList:[],text:null,maxlength:50,showUpload:true,dilaog:0};
+	}
+	componentDidMount(){
+		Config.native('getallmethod').then((res)=>{
+			let data = res.data;
+			if(data.indexOf('photo')>-1){
+				this.suprise = true;
+			}
+		});
+	}
+	renderDialog(){
+		console.log(this.state.dialog)
+		return <Dialog stage={this} {...this.state.dialog}/>
 	}
 	submit(){
 		let data ={
@@ -53,6 +67,10 @@ export default class OrtAnomalie extends Component{
 	}
 	//选择图片
 	selectPictrues(){
+		if(!this.suprise){
+            this.setState({dialog:{mask:true,show:true,msg:"该版本过低，请升级",type:"alert"}});
+			return false;
+		}
 		Config.native('photo').then((res)=>{
 			if(res.code ==200){
 				let data = [res.data].map((item)=>{
@@ -114,6 +132,7 @@ export default class OrtAnomalie extends Component{
 					{this.state.showUpload?<div className="upload-btn iconfont icon-qiandaotianjiazhaopian" onClick={this.selectPictrues.bind(this)}></div>:undefined}
 				</div>
 				<div className="bigredbtn" onClick={this.submit.bind(this)}>提交并确认打卡</div>
+                {this.state.dialog?this.renderDialog():undefined}
 			</div>
 			);
 	}

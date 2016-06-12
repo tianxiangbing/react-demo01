@@ -1,6 +1,7 @@
 @import 'base';
 .formBox{
-	font-size:$fontSize2;
+	/* font-size:$fontSize2; */
+	@extend .fontSize2;
 	margin-top:pxToRem(32);
 	border:1px solid #cfcfcf;
 	border-left:none;
@@ -24,6 +25,8 @@
 		}
 		.info{
 			color:#232323;
+			width:pxToRem(500);
+			float:left;
 		}
 	}
 	textarea{
@@ -31,7 +34,8 @@
 		width:pxToRem(690);
 		height:pxToRem(190);
 		padding: pxToRem(20) 0;
-		font-size:$fontSize2;
+		/* font-size:$fontSize2; */
+		@extend .fontSize2;
 		color:#4d4d4d;
 	}
 	.upload-btn{
@@ -55,7 +59,8 @@
 	text-align:center;
 	background-color:$whiteColor;
 	color:$fontColorRed;
-	font-size:$fontSize2;
+	/* font-size:$fontSize2; */
+	@extend .fontSize2;
 }
 .addUser{
 	padding:pxToRem(30) 0  0 0;
@@ -65,7 +70,8 @@
 		color:$fontColorGray;
 		margin-right:pxToRem(25);
 		i{
-			font-size:$fontSize2;
+			/* font-size:$fontSize2; */
+			@extend .fontSize2;
 			font-weight:bolder;
 			margin-left:pxToRem(20);
 		}

@@ -12,8 +12,8 @@ var extractCSS = new ExtractTextPlugin('stylesheets/' + filename + '.css');
 //动态创建html
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var htmlPlugin = new HtmlWebpackPlugin({
-    title: "my APP",
-    filename: '../index-publish.html',
+    title: "签到",
+    filename: '../index.html',
     template: "template.html"
 });
 var modulesDirectories = ["web_modules", "node_modules", "bower_components","app/devconfig"];
@@ -26,9 +26,9 @@ var config = {
         vendor: ["react", "react-dom", 'whatwg-fetch', 'react-router']
     },
     output: {
-        path: path.resolve(__dirname, "build"),
+        path: path.resolve(__dirname, "caiyun/build"),
         //publicPath: "/data/assets/build/",
-        publicPath: "/build/",
+        publicPath: "build/",
         filename: filename + ".js"
     },
     resolve: {
@@ -45,13 +45,13 @@ var config = {
             }
         }, {
             test: /\.scss$/,
-            loader: extractCSS.extract('style-loader', 'css?sourceMap!sass?includePaths[]=' + path.resolve(__dirname, 'app/scss'))
+            loader: extractCSS.extract('style-loader', 'css?-url!sass?includePaths[]=' + path.resolve(__dirname, 'app/scss'))
         }, {
             test: /\.(eot|woff|ttf|svg)/,
             loader: 'file-loader?name=[name].[ext]'
         }, {
             test: /\.css$/,
-            loader: extractCSS.extract('style-loader', 'css?sourceMap!sass?includePaths[]=' + path.resolve(__dirname, 'app/scss'))
+            loader: extractCSS.extract('style-loader', 'css?-url!sass?includePaths[]=' + path.resolve(__dirname, 'app/scss'))
         }, {
             test: /\.html$/,
             loader: "html-loader"

@@ -3,7 +3,8 @@
 	height:pxToRem(90);
 	line-height:pxToRem(90);
 	color:$whiteColor;
-	font-size:$fontSize2;
+	/* font-size:$fontSize2; */
+	@extend .fontSize2;
 	background-color:$focusColor;
 	text-align:center;
 	width:80%;

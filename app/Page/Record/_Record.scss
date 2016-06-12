@@ -87,7 +87,7 @@ outline:none;
         padding: pxToRem(8);
         font-size: .875em;
         text-align: center;
-        color: #8b9898;
+        color: $fontColorGray;
       }
 
   .DayPicker-Body {
@@ -107,6 +107,7 @@ outline:none;
         vertical-align: middle;
         width:pxToRem(105);
         height:pxToRem(85);
+        color:$fontColorBlack;
       }
 
   .DayPicker--interactionDisabled .DayPicker-Day {
@@ -155,8 +156,13 @@ outline:none;
   touch-callout:none;
   outline:none;
   .normal{
-    font-size:$fontSize2;
+    /* font-size:$fontSize2; */
+    @extend .fontSize1;
     position:relative;
+    width:pxToRem(105);
+    height:pxToRem(85);
+    line-height:pxToRem(85);
+    width:100%;
     i{
       position:absolute;
       width:pxToRem(28);
@@ -168,6 +174,7 @@ outline:none;
       color:#fff;
       font-size:pxToRem(17);
       bottom:- pxToRem(10);
+      overflow:hidden;
     }
   }
   %same{
@@ -180,15 +187,27 @@ outline:none;
   }
   .ok{
     @extend %same;
-    background-color:#4fc2b5;
+    background-color:#4ec3b5;
+    &.focus{
+      background-color:#118a7e;
+      color:#fff;
+    }
   }
   .error{
     @extend %same;
-    background-color:#fc5b51;
+    background-color:#fa5759;
+    &.focus{
+      background-color:#d0474a;
+      color:#fff;
+    }
   }
-  .focus,&.focus .normal{
+  .focus{
     @extend %same;
-    background-color:#08ed7f;
+    background-color:#e7e7e7;
+    color:$fontColorBlack;
+  }
+  .now{
+    color:$focusColor;
   }
 }
 .tagTips{
@@ -224,7 +243,8 @@ outline:none;
     border-radius:pxToRem(50);
     i{
       vertical-align: middle;
-      font-size:$fontSize1;
+     /*  font-size:$fontSize1; */
+      @extend .fontSize1;
       margin-right:pxToRem(10);
     }
   }
@@ -246,15 +266,17 @@ outline:none;
     border-bottom:1px solid #d0d0d0;
   }
   .tabTitle{
+    margin-bottom:pxToRem(30);
     .tab{
       display:inline-block;
       width:50%;
       text-align:center;
       color:#909090;
       padding-bottom:pxToRem(20);
-      border-bottom:5px solid #fff;
+      border-bottom:6px solid #fff;
       &.focus{
-        color:#fd5851;
+        color:$focusColor;
+        font-weight:bold;
         border-bottom-color:#fd5851;
       }
     }

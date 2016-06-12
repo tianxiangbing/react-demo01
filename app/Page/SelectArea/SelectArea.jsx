@@ -9,11 +9,13 @@ export default class SelectArea extends Component{
 		this.map = null;
 		this.marker = null;
 		this.state={list:[]};
+		this.xy= [];
 	}
 	componentDidMount(){
 		/*var scale = 1 ;
 		document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
 		document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';*/
+		this.xy=JSON.parse(localStorage.getItem('lnglatXY'));
 		this.initMap();
 	}
 	initMap(){
@@ -37,7 +39,7 @@ export default class SelectArea extends Component{
 				map: map,
 				content: content,
 				position: cpoint,
-				offset: new AMap.Pixel(-11, -22)
+				offset: new AMap.Pixel(-22, -44)
 			});
 			placeSearch.searchNearBy('', cpoint, 200, function(status, result) {
                 map.setZoomAndCenter(16,cpoint);
@@ -71,13 +73,20 @@ export default class SelectArea extends Component{
 		this.state.list[index].ischecked = true;
 		this.setState({list:this.state.list});
 		this.currentAddr = item;
-		this.map.setCenter([item.location.lng,item.location.lat])
-		this.marker.setPosition([item.location.lng,item.location.lat])
+		this.xy=[item.location.lng,item.location.lat];
+		this.map.setCenter(this.xy);
+		this.marker.setPosition(this.xy);
+	}
+	reset(){
+		this.map.setCenter(JSON.parse(localStorage.getItem('lnglatXY')));
 	}
 	render(){
 		return (
 			<div className="selectArea">
-				<div ref="bigMap" id="bigMapcontainer" className="bigMap"/>
+				<div className="mapContent">
+					<div ref="bigMap" id="bigMapcontainer" className="bigMap"/>
+					<i className="iconfont icon-qiandaoditufuwei" onClick={this.reset.bind(this)}/>
+				</div>
 				<div ref="panel" className="panel" id="panel">
 					<div className="amap_lib_placeSearch">    
 						<div className="amap_lib_placeSearch_list">      

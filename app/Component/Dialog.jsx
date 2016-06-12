@@ -9,20 +9,33 @@ export default class Dialog extends Component{
 		this.state ={show:props.show,msg:props.msg}
 	}
 	componentDidMount(){
-		this.timer = setTimeout(()=>{
-			this.setState({show:false});
-			this.props.stage.setState({dialog:0})
-		},2000)
+		if(this.props.timer||this.props.type == "alert"){
+			this.timer = setTimeout(()=>{
+				this.setState({show:false});
+				this.props.stage.setState({dialog:0})
+			},2000)
+		}
+	}
+	hide(){
+		this.props.hide();
 	}
 	render(){
 		let d = "";
 		if(this.state.show){
 			d = (
-					<div className={"dialog " +this.props.type}>{this.props.msg}</div>
+				<div>
+					<div className={"dialog " +this.props.type}>
+						<div>{this.props.msg}</div>
+						{this.props.buttons}
+					</div>
+					{this.props.mask?<div className="dialog-mask" onClick={this.hide.bind(this)}/>:undefined}
+				</div>
 				)
 		}
 		return (
-				<div>{d}</div>
+				<div>
+				{d}
+				</div>
 			)
 	}
 }

@@ -23,16 +23,10 @@ export default class App extends Component{
 		super(props);
 		this.isLocated = 0;
 		this.action = 0;
-		this.state={disabled:true,localInfo:{},lnglatXY:null,recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false,isShowSign:false,dialog:0};
+		this .signType = 0;
+		this.state={disabled:true,acute:false,localInfo:{},lnglatXY:null,recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false,isShowSign:false,dialog:0};
 	}
 	componentWillMount(){
-		console.log('will')
-		var scale = 1 / devicePixelRatio;
-		document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
-		document.documentElement.style.fontSize = document.documentElement.clientWidth / 10 + 'px';
-		/*var scale = 1 ;
-		document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
-		document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';*/
 	}
 	getLngXY(){
 		return Config.native('getPosition')
@@ -62,10 +56,10 @@ export default class App extends Component{
 			lnglatXY = res.data;
 			let setPosition = localStorage.getItem('lnglatXY')
 			if(setPosition){
-				map.setZoomAndCenter(15,JSON.parse(setPosition));
+				map.setZoomAndCenter(14,JSON.parse(setPosition));
 				localStorage.removeItem('lnglatXY');
 			}else{
-				map.setZoomAndCenter(15,lnglatXY);
+				map.setZoomAndCenter(14,lnglatXY);
 			}
 			//map.setZoom(3);
 			regeocoder();
@@ -86,7 +80,7 @@ export default class App extends Component{
 					map: map,
 					content: content,
 					position: lnglatXY,
-					offset: new AMap.Pixel(-11, -22)
+					offset: new AMap.Pixel(-22, -44)
 				});
 				//map.setFitView();
 			}
@@ -144,6 +138,10 @@ export default class App extends Component{
 			this.initMap();
 		},1000*60);
 
+	/*	console.log('will')
+		var scale = 1 / devicePixelRatio;
+		document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+		document.documentElement.style.fontSize = document.documentElement.clientWidth / 10 + 'px';*/
 	}
 	componentWillUnmount() {
 	    this.timer&&clearInterval(this.timer);  
@@ -221,8 +219,14 @@ export default class App extends Component{
 			this.setState({isShowSign:true});
 		}
 	}
+	submitSign(){
+		this.action = 1;
+		this.sign(this.signType);
+	}
 	sign(type){
 		let _this =this;
+		type = type || _this.signType;
+		_this.signType=type;
 		let data ={
 			//token:"7d171a5fd4954f0c34345c2bbe3f8932",
 			orgId:this.state.currCorp.orgId,
@@ -234,9 +238,9 @@ export default class App extends Component{
 			latitude:this.state.lnglatXY[1]
 		}
 		_this.setLocalStorage();
-		//test
+		/*//test
 		location.href="#ortanomalie";
-		return false;
+		return false;*/
 		Config.ajax("sign",
 		{
 		  headers: {
@@ -251,7 +255,7 @@ export default class App extends Component{
 					this.bindSign();
 					_this.action =0;//reset
 			}else if(res.code==1005){
-				//地点异常
+				/*//地点异常
 				Config.native('confirm',{title:"地点异常","desc":"当前地点不在公司范围内","ok":"确定打卡","cancel":"报告原因"}).then((res)=>{
 					if(res.data=="cancel"){
 						_this.setLocalStorage();
@@ -261,7 +265,8 @@ export default class App extends Component{
 						_this.action = 1;
 						_this.sign(type);
 					}
-				})
+				})*/
+				this.setState({dialog:{mask:true,hide:this.hideDialog.bind(this),show:true,msg:<div className="acuteDialog"><i className="iconfont icon-qiandaodidianyichang"/><div className="title">地点异常</div><p className="info">当前地点不在公司范围内</p></div>,buttons:<div className="dialog-button"><a href="#ortanomalie">报告原因</a><a onClick={this.submitSign.bind(this)}>确认打卡</a></div>,type:"confirm"}});
 			}
 		})
 	}
@@ -292,24 +297,34 @@ export default class App extends Component{
         };
         localStorage.setItem('outInfo',JSON.stringify(outInfo));
 	}
+	jumpSelectArea(){
+		location.href="#selectarea";
+	}
+	hideDialog(){
+		this.setState({dialog:0})
+	}
 	render(){
 		return (
 			<div className="body">
 				<Helmet title="签到"/>
 				<div className="header">
 					<div className="orgInfo">
-						<div className="focus" onClick={this.expandOrg.bind(this)}>{this.state.currCorp.orgName} <i className={this.state.expand?"triangle up":"triangle down"}/></div>
-						{
-							this.state.expand?
-						<div className="orgList">
+					{
+						(()=>{
+							if(this.state.corpList.length >1){
+								return (<div className="focusorg" onClick={this.expandOrg.bind(this)}>{this.state.currCorp.orgName} <i className={this.state.expand?"triangle up":"triangle down"}/></div>);
+							}else{
+								return (<div className="focusorg">{this.state.currCorp.orgName}</div>);
+							}
+						})()
+					}
+						<div className={this.state.expand?"orgList":"orgList hide"}>
 						{
 							(this.state.corpList||[]).map((item)=>{
-								return <div className={item.orgId==this.state.currCorp.orgId?"focus":""} onClick={this.select.bind(this,item)}>{item.orgName}</div>
+								return <div className={item.orgId==this.state.currCorp.orgId?"focusorg":""} onClick={this.select.bind(this,item)}>{item.orgName}</div>
 							})
 						}
 						</div>
-						:null
-						}
 					</div>
 					{
 					this.state.expand?
@@ -318,14 +333,13 @@ export default class App extends Component{
 					}
 					<div className="timer">{this.state.time}</div>
 					<div className="box downborder">
-						<Link to="selectarea">
-						<div className="mapContainer">
+						<div className="mapContainer" onClick={this.jumpSelectArea.bind(this)}>
 							<div ref="smallMap" id="container" className="smallMap"/>
 							<div className="mapAdress">
 								{
 									(()=>{
 										if(this.state.localInfo.status){
-											return (<div><h2>{this.state.localInfo.title}</h2>
+											return (<div><i className="iconfont icon-xiayibu"/><h2>{this.state.localInfo.title}</h2>
 											<p>{this.state.localInfo.desc}</p>
 											</div>)
 										}else{
@@ -335,7 +349,6 @@ export default class App extends Component{
 								}
 							</div>
 						</div>
-						</Link>
 					</div>
 				</div>
 				<div className="box upborder signRecord">
@@ -343,7 +356,7 @@ export default class App extends Component{
 					<SignList recordList = {this.state.recordList} showText={this.state.showText}/>
 					</div>
 				</div>
-				<div className="bottomButton">
+				<div className={this.state.disabled ? "bottomButton bigButton disabled": "bottomButton bigButton"}>
 					<div className="button lbutton" onClick={this.showSign.bind(this)}>
 						<a className="iconfont icon-qiandaokaoqindaqia"></a>
 						<p>签到</p>

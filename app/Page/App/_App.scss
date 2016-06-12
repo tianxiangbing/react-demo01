@@ -5,6 +5,14 @@
 .mapContainer{
 	border:1px solid #cecece;
 	overflow:hidden;
+	position:relative;
+	i{
+		position:absolute;
+		@extend .fontSize4;
+		top:pxToRem(50);
+		right:pxToRem(20);
+		color:$fontColorGray;
+	}
 	.smallMap{
 		width:pxToRem(190);
 		height:pxToRem(172);
@@ -13,16 +21,18 @@
 	.mapAdress{
 		@extend .fl;
 		margin-left:pxToRem(28);
-		font-size:$fontSize1;
+		/* font-size:$fontSize1; */
+		@extend .fontSize1;
 		padding-top:pxToRem(20);
 		width:pxToRem(425);
 		h2{
-			color:#242424;
-			font-size:$fontSize2;
+			color:$fontColorBlack;
+			@extend .fontSize2;
 			margin-bottom:pxToRem(15);
+			@extend %overText;
 		}
 		p{
-			color:#c2c2c2;
+			color:$fontColorGray;
 			line-height:1.6;
 		}
 	}
@@ -37,6 +47,9 @@
 	width:100%;
 	padding-right:0 !important;
 	padding-left:0 !important;
+	&.sr2{
+		top:pxToRem(330);
+	}
 }
 .nodata{
 	color:#999;
@@ -45,19 +58,30 @@
 	top:pxToRem(300);
 	width:100%;
 	left:0;
+	font-size:16px;
 }
 .mapicon{
 	color:$focusColor;
-	font-size:22px;
+	font-size:44px;
 }
 .orgInfo{
 	background-color:$whiteColor;
-	font-size:$fontSize2;
+	/* font-size:$fontSize2 !important; */
+	@extend .fontSize2;
 	line-height:pxToRem(90);
 	position:relative;
 	z-index:3;
-	.focus{
+	.focusorg{
 		padding-left:pxToRem(28);
+		color:$fontColorBlack;
+		@extend %overText;
+		padding-right:pxToRem(80);
+		position:relative;
+		i{
+			position:absolute;
+			top:pxToRem(0);
+			right:pxToRem(0);
+		}
 	}
 	.orgList{
 		position:absolute;
@@ -69,10 +93,11 @@
 		div{
 			margin-left:pxToRem(60);
 			border-bottom:1px solid $borderColor2;
+			@extend %overText;
 			&:last-child{
 				border:none;
 			}
-			&.focus{
+			&.focusorg{
 				color:$focusColor;
 				padding:0;
 			}
@@ -96,6 +121,9 @@
 	background:$whiteColor;
 	padding-left:pxToRem(28);
 	color:$fontColorGray;
+	&.onlyOne{
+		padding-top:pxToRem(20);
+	}
 }
 
 .listSign{
@@ -106,28 +134,36 @@
 		&.error,&.loc-error{
 			color:#fa565a;
 		}
+		display: flex; 
+		flex-flow: row;
 		clear:both;
 		.time{
 			float:left;
-			width:pxToRem(132);
-			font-size:$fontSize4;
+			/* width:pxToRem(132); */
+			/* font-size:$fontSize4; */
+			@extend .fontSize4;
       		font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica;
-      		line-height:1;
-		}
+      		line-height:1;		
+      		padding-right:pxToRem(20);
+      	}
 		.title{
-			font-size:$fontSize2;
+			/* font-size:$fontSize2; */
+			@extend .fontSize2;
 		}
 		.desc{
-			font-size:$fontSize1;
+			/* font-size:$fontSize1; */
+			@extend .fontSize1;
 			float:left;
 			border-bottom:1px solid #cecece;
 			padding-bottom:pxToRem(30);
 			padding-right:pxToRem(32);
 			margin-bottom:pxToRem(30);
-			width:pxToRem(585);
+			/* width:pxToRem(585); */
+			flex:1;
 		}
 		.position{
-			font-size:$fontSize1;
+			/* font-size:$fontSize1; */
+			@extend .fontSize1;
 			margin:pxToRem(20) 0 0 0;
 			color:#928989;
 			i{
@@ -139,8 +175,9 @@
 		}
 		.remark{
 			margin:pxToRem(20) 0 0 0;
-			width:pxToRem(540);
-			font-size:$fontSize1;
+			/* width:pxToRem(540); */
+			/* font-size:$fontSize1; */
+			@extend .fontSize1;
 			color:#544b4b;
 			line-height:1.5;
 		}
@@ -151,6 +188,19 @@
 	bottom:0;
 	width:100%;
 	text-align:center;
+	&.bigButton{
+		background: -webkit-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1)); /* Safari 5.1 - 6.0 */
+		background: -o-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1)); /* Opera 11.1 - 12.0 */
+		background: -moz-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1)); /* Firefox 3.6 - 15 */
+		background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1)); /* ��׼���﷨ */
+	}
+	&.disabled{
+		.button{
+			a{
+				background-color: #dfdfdf !important;
+			}
+		}
+	}
 	.button{
 		display:inline-block;
 		margin:0 pxToRem(90);
@@ -189,7 +239,8 @@
 				width:pxToRem(140);
 				height:pxToRem(140);
 				line-height:pxToRem(140);
-				font-size:$fontSize2;
+				/* font-size:$fontSize2; */
+				@extend .fontSize2;
 				font-family:$fontFamily;
 			}
 		}
@@ -208,4 +259,26 @@
 .pdbtn{
 	padding-bottom:pxToRem(160);
 	background-color: #fff;
+}
+.acuteDialog{
+	i{
+		font-size:45px;
+		display:block;
+		text-align:center;
+		margin:0 auto;
+		color:$focusColor;
+		margin:pxToRem(60) auto pxToRem(30) auto;
+	}
+	.title{
+		@extend .fontSize17;
+		text-align:center;
+		color:$fontColorBlack;
+		margin-bottom:pxToRem(60);
+	}
+	.info{
+		@extend .fontSize13;
+		text-align:center;
+		color:$fontColorBlack;
+		margin-bottom:pxToRem(40);
+	}
 }

@@ -32,6 +32,9 @@ export default class Calendar extends React.Component{
 
 			}
 		});
+		if(d.getDate() == +new Date()){
+			cls+='now';
+		}
 		return <div className={cls}>{d.getDate()}{wq}</div>;
 	}
     onMonthChange(d){

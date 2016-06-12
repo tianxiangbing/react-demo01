@@ -16,6 +16,12 @@ let Config = {
 			args[0]+="?"+args[1];
 			args.pop();
 		}
+		console.log(args)
+		args[1] && (args[1].method ="GET");
+		if(args[1] && typeof args[1]=="object"){
+			args [0] += "?"+args[1].body;
+			delete args [1]
+		}
 		return fetch.apply(null,args).then((response) => {
 			return response.json()
 		});

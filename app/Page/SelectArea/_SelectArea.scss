@@ -1,13 +1,13 @@
 @import 'base';
 .bigMap{
-	height:300px;
+	height:pxToRem(600);
 	z-index: 2;
 }
 .panel{
 	position:absolute;
 	top:0;
 	left:0;
-	padding-top:300px;
+	padding-top:pxToRem(600);
 	padding-bottom:pxToRem(90);
 	overflow:auto;
 	width:100%;
@@ -21,13 +21,16 @@ display: none !important;
 .amap_lib_placeSearch{
 	border-left:none;
 	border-right:none;
-	font-size:$fontSize1 !important; 
+	/* font-size:$fontSize1 !important;  */
+	@extend .fontSize1;
 	p.poi-addr{
 		line-height: 1.6 !important; 
+		@extend .fontSize;
 	}
 }
 .amap_lib_placeSearch .poibox .poi-title{
-	font-size:$fontSize2 !important; 
+	/* font-size:$fontSize2 !important;  */
+	@extend .fontSize1;
 	line-height: 1.6;
 }
 .amap_lib_placeSearch_list{
@@ -66,9 +69,10 @@ display: none !important;
 				width:16px;
 				height:16px;
 				position:absolute;
-				top:22px;
-				right:15px;
+				top:pxToRem(60);
+				right:pxToRem(50);
 				color:#f55d4f;
+				@extend .fontSize4;
 			}
 		}
 		&.active:last{
@@ -85,7 +89,28 @@ display: block !important;
 .selectArea{
 	.btnBottom{/* 
 		  height: 45px;
-		  line-height: 45px; */
-		  font-size: $fontSize1; 
+		  line-height: 45px;
+		  font-size: $fontSize1;  */
+		@extend .fontSize1;
+	}
+}
+.amap_lib_placeSearch .poibox.active, .amap_lib_placeSearch .poibox.hover, .amap_lib_placeSearch .poibox:hover{
+	background-color:$whiteColor !important;
+}
+.mapContent{
+	position:relative;
+	i{
+		height:pxToRem(72);
+		border:1px solid $borderColor2;
+		border-radius:pxToRem(10);
+		position:absolute;
+		bottom:pxToRem(20);
+		left:pxToRem(20);
+		font-size:pxToRem(50);
+		padding:pxToRem(10);
+		background-color:$whiteColor;
+		display:block;
+		z-index:33;
+		line-height:1;
 	}
 }
