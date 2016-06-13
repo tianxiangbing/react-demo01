@@ -32,6 +32,13 @@ export default class Record extends Component{
 		let now = new Date(d);
 		let dateStr=now.getFullYear()+"年"+(now.getMonth()+1)+"月"
     	this.setState({title:dateStr})
+    	var NOW =new Date();
+    	let start = new Date(NOW.getFullYear(),NOW.getMonth(),1);
+    	let end = new Date(now.getFullYear(),now.getMonth(),1);
+    	if(start < end){
+			_this.setState({list:[],isReady:true});
+    		return;
+    	}
 		Config.ajax('historyOfMonth',"dateTime="+(new Date(d).getTime())).then((res)=>{
 			if(res.code ==200){
 				_this.setState({list:res.data.list,isReady:true});

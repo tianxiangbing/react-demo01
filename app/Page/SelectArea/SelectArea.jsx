@@ -39,7 +39,7 @@ export default class SelectArea extends Component{
 				map: map,
 				content: content,
 				position: cpoint,
-				offset: new AMap.Pixel(-22, -44)
+				offset: new AMap.Pixel(-11, -22)
 			});
 			placeSearch.searchNearBy('', cpoint, 200, function(status, result) {
                 map.setZoomAndCenter(16,cpoint);

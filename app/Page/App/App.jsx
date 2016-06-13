@@ -80,7 +80,7 @@ export default class App extends Component{
 					map: map,
 					content: content,
 					position: lnglatXY,
-					offset: new AMap.Pixel(-22, -44)
+					offset: new AMap.Pixel(-11, -22)
 				});
 				//map.setFitView();
 			}
@@ -222,6 +222,7 @@ export default class App extends Component{
 	submitSign(){
 		this.action = 1;
 		this.sign(this.signType);
+		this.setState({dialog:0});
 	}
 	sign(type){
 		let _this =this;
@@ -334,7 +335,7 @@ export default class App extends Component{
 					<div className="timer">{this.state.time}</div>
 					<div className="box downborder">
 						<div className="mapContainer" onClick={this.jumpSelectArea.bind(this)}>
-							<div ref="smallMap" id="container" className="smallMap"/>
+							<div ref="smallMap" id="container" className="smallMap" onTouchStart={this.jumpSelectArea.bind(this)}/>
 							<div className="mapAdress">
 								{
 									(()=>{
