@@ -84,7 +84,7 @@ let Config = {
 			}
 			case 'historyOfDay':{
 				//他人外勤
-				return domain+'get/out/historyOfDay.json'+param
+				return domain+'get/other/out/historyOfDay.json'+param
 			}
 		}
 	},
