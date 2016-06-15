@@ -51,7 +51,6 @@ export default class App extends Component{
 		this.isLocated = 0;
 		this.getLngXY().then((res) => {
 			if(res.code != 200)return;
-			_this.setState({disabled:false});
 			this.isLocated = 1;
 			lnglatXY = res.data;
 			let setPosition = localStorage.getItem('lnglatXY')
@@ -100,6 +99,7 @@ export default class App extends Component{
 						status:true
 					}
 				});
+				_this.setState({disabled:false});
 			}
 
 		});
@@ -282,11 +282,6 @@ export default class App extends Component{
 		return <Dialog stage={this} {...this.state.dialog}/>
 	}
 	setLocalStorage(e){
-		if(this.state.disabled){
-			e.preventDefault();
-			e.stopPropagation();
-			return false;
-		}
 		var outInfo = {
             'orgId':this.state.currCorp.orgId,
             'orgName': this.state.currCorp.orgName,
@@ -303,6 +298,13 @@ export default class App extends Component{
 	}
 	hideDialog(){
 		this.setState({dialog:0})
+	}
+	jump(url){
+		if(this.state.disabled){
+			return;
+		}
+		this.setLocalStorage();
+		location.href="#"+url;
 	}
 	render(){
 		return (
@@ -362,12 +364,10 @@ export default class App extends Component{
 						<a className="iconfont icon-qiandaokaoqindaqia"></a>
 						<p>签到</p>
 					</div>
-					<Link to="fieldsign" onClick={this.setLocalStorage.bind(this)}>
-					<div className="button rbutton">
+					<div className="button rbutton" onClick={this.jump.bind(this,"fieldsign")}>
 						<a className="iconfont icon-qiandaowaiqinqiandao"></a>
 						<p>外勤签到</p>
 					</div>
-					</Link>
 				</div>
 				{
 				this.state.isShowSign?
