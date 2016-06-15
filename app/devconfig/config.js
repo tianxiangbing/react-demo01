@@ -7,6 +7,7 @@ import 'react-day-picker/lib/style.css';
 import '../Page/Record/_Record.scss';
 import '../Page/SelectArea/_SelectArea.scss';
 import '../Component/_Dialog.scss';
+import '../Page/OrtAnomalie/_OrtAnomalie.scss';
 
 import cookie from 'react-cookie';
 import './bridge';
@@ -199,20 +200,21 @@ let Config = {
 				break;
 			}
 			default:{
-				window.JSBridge.requestHybrid({
-                    method: method,
-                    data: data,
-                    callback: function (result) {
-                        /*$('.result',_this).html(JSON.stringify(data));
-                        conosle.log(JSON.stringify(data));*/
-                        t && t.call(null,result)
-                    }
-                });
+				setTimeout(()=>{
+					window.JSBridge.requestHybrid({
+	                    method: method,
+	                    data: data,
+	                    callback: function (result) {
+	                        t && t(result)
+	                    }
+	                });
+				},0)
 				return {
 					then:function(f){
 						t =f;
 					}
 				}
+				break;
 			}
 		}
 

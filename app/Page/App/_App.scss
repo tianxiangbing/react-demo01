@@ -133,8 +133,17 @@
 	background-color:$whiteColor;
 	margin-left:pxToRem(30);
 	.item{
-		&.error,&.loc-error{
+		&.error{
 			color:#fa565a;
+		}
+		&.loc-error{
+			.position{
+				color:#fa565a;
+				i{
+					color:#fa565a;
+					vertical-align: -3px;
+				}
+			}
 		}
 		display: flex; 
 		flex-flow: row;

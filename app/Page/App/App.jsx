@@ -31,6 +31,34 @@ export default class App extends Component{
 	getLngXY(){
 		return Config.native('getPosition')
 	}
+	getQuery(name, type, win) {
+        var reg = new RegExp("(^|&|#)" + name + "=([^&]*)(&|$|#)", "i");
+        win = win || window;
+        var Url = win.location.href;
+        var u, g, StrBack = '';
+        if (type == "#") {
+            u = Url.split("#");
+        } else {
+            u = Url.split("?");
+        }
+        if (u.length == 1) {
+            g = '';
+        } else {
+            g = u[1];
+        }
+        if (g != '') {
+            let gg = g.split(/&|#/);
+            var MaxI = gg.length;
+            let str = arguments[0] + "=";
+            for (let i = 0; i < MaxI; i++) {
+                if (gg[i].indexOf(str) == 0) {
+                    StrBack = gg[i].replace(str, "");
+                    break;
+                }
+            }
+        }
+        return decodeURI(StrBack);
+    }
 	initMap(e){
 		if(e){
 			e.preventDefault();
@@ -111,7 +139,11 @@ export default class App extends Component{
 		})*/.then((data)=>{
 			data = data.data;
 			this.setState({corpList:data});
-			let orgId= cookie.load('orgId');
+			if(this.getQuery('orgId')){
+				cookie.save('orgId',this.getQuery('orgId'),{ path: '/' });
+				localStorage.setItem('orgId',this.getQuery('orgId'));
+			}
+			let orgId= localStorage.getItem('orgId');
 			let currCorp = {};
 			if(orgId && orgId !="undefined"){
 				data.forEach((item)=>{
@@ -160,7 +192,38 @@ export default class App extends Component{
 			data = data.data.list;
 			data.result = data.map((item)=>{
 				console.log(item)
-				if((item.type == 0 || item.type == 1) && item.status != 0 ){
+				
+				switch(item.type){
+					case 2:{
+						item.title="外勤签到"
+						break;
+					}
+					case 0:{
+						if((item.status&1)!=0){
+							item.title="上班迟到";
+							item.className ="error";
+						}else{
+							item.title="上班打卡"
+						}
+						if((item.status&4)!=0){
+							item.className +=" loc-error";
+						}
+						break;
+					}
+					case 1:{
+						if((item.status&2)!=0){
+							item.title="下班迟到";
+							item.className ="error";
+						}else{
+							item.title="下班打卡"
+						}
+						if((item.status&4)!=0){
+							item.className +=" loc-error";
+						}
+						break;
+					}
+				}
+				/*if((item.type == 0 || item.type == 1) && item.status != 0 ){
 					if(item.status!=4){
 						item.className ="error";
 					}else if(item.status != 1 && item.status != 2){
@@ -181,7 +244,7 @@ export default class App extends Component{
 					}
 				}else if(item.type ==2){
 					item.title="外勤签到"
-				}
+				}*/
 				return item;
 			});
 			this.setState({"recordList":data});
@@ -201,12 +264,18 @@ export default class App extends Component{
 			orgId:this.state.currCorp.orgId
 		};*/
 		Config.ajax('getTime',''/*,JSON.stringify(param)*/).then((data)=>{
-			console.log(data);
 			if(!!data.redirect){
                 location.href = data.redirect;
             }
             if(data.code == 200){
-                this.setState({'time':data.data.time});
+	            let weekArr = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
+	            let arr = data.data.time.split(' ')
+	            let ymd= arr[0].split('-');
+	            let hms= arr[1].split(':');
+	            let date = new Date(ymd[0],ymd[1]-1,ymd[2],hms[0],hms[1]); 
+	            let datestring = date.getFullYear()+"-"+ ("0"+(date.getMonth()+1)).slice(-2) +"-"+("0"+date.getDate()).slice(-2) + " "+weekArr[date.getDay()]
+	            				+" "+ ("0"+date.getHours()).slice(-2)+':'+("0"+date.getMinutes()).slice(-2);
+                this.setState({'time':datestring});
             }else{
                 //AlertBox.alerts('获取时间异常');
                 this.setState({dialog:{show:true,msg:"获取时间异常",type:"alert"}});
@@ -226,7 +295,9 @@ export default class App extends Component{
 	}
 	sign(type){
 		let _this =this;
-		type = type || _this.signType;
+		if(typeof type == 'undefined'){
+			type = _this.signType;
+		}
 		_this.signType=type;
 		let data ={
 			//token:"7d171a5fd4954f0c34345c2bbe3f8932",

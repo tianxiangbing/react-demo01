@@ -99,7 +99,6 @@ export default class Record extends Component{
 		}
     }
     parentDayClick(d){
-    	console.log(d);
     	this.tab(0,d);
     }
 	render(){

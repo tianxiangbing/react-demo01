@@ -32,8 +32,12 @@ export default class Calendar extends React.Component{
 
 			}
 		});
-		if(d.getDate() == +new Date()){
-			cls+='now';
+		if(d.toDateString() == (new Date()).toDateString()){
+			if(cls.length >6){
+				cls+=' focus';
+			}else{
+				cls+=" now";		
+			}
 		}
 		return <div className={cls}>{d.getDate()}{wq}</div>;
 	}

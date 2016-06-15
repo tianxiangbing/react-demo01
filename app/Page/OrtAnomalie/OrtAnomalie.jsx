@@ -1,7 +1,6 @@
 import React from 'react';
 let {Component} = React;
 import Helmet from "react-helmet";
-import './_OrtAnomalie.scss';
 import Dialog from '../../Component/Dialog';
 import Config from 'config';
 
@@ -15,17 +14,33 @@ export default class OrtAnomalie extends Component{
 	}
 	componentDidMount(){
 		Config.native('getallmethod').then((res)=>{
-			let data = res.data;
-			if(data.indexOf('photo')>-1){
-				this.suprise = true;
-			}
+			let data ;
+			data = res.data;
+			data.forEach((item)=>{
+				if(item=="photo"||item=="photo1"){
+					this.suprise = true;
+				}
+			})
 		});
 	}
 	renderDialog(){
 		console.log(this.state.dialog)
 		return <Dialog stage={this} {...this.state.dialog}/>
 	}
+	checkIsUpload(){
+		let isuploading=false;
+		this.state.imgList .forEach((item)=>{
+			if(!item.uploaded){
+				isuploading = true;
+			}
+		});
+		return isuploading;
+	}
 	submit(){
+		if(this.checkIsUpload()){
+			this.setState({dialog:{mask:true,show:true,msg:"图片正在上传，请稍后",type:"alert"}});
+			return;
+		}
 		let data ={
 			orgId:this.outInfo.orgId,
 			orgName:this.outInfo.orgName,

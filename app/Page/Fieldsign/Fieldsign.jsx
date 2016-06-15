@@ -12,6 +12,7 @@ import Helmet from "react-helmet";
 //import Styles from './_FieldSign.scss';
 let {Component}=React;
 import Config from 'config';
+import Dialog from '../../Component/Dialog';
 
 //外勤签到
 export default class Fieldsign extends Component{
@@ -32,6 +33,10 @@ export default class Fieldsign extends Component{
 		this.setState({text:v});
 	}
 	submit(){
+		if(this.checkIsUpload()){
+			this.setState({dialog:{mask:true,show:true,msg:"图片正在上传，请稍后",type:"alert"}});
+			return;
+		}
 		let data ={
 			orgId:this.outInfo.orgId,
 			orgName:this.outInfo.orgName,
@@ -109,8 +114,25 @@ export default class Fieldsign extends Component{
 			}
 		})
 	}
+	renderDialog(){
+		console.log(this.state.dialog)
+		return <Dialog stage={this} {...this.state.dialog}/>
+	}
+	checkIsUpload(){
+		let isuploading=false;
+		this.state.imgList .forEach((item)=>{
+			if(!item.uploaded){
+				isuploading = true;
+			}
+		});
+		return isuploading;
+	}
 	//选择人员
 	addUser(){
+		if(this.checkIsUpload()){
+			this.setState({dialog:{mask:true,show:true,msg:"图片正在上传，请稍后",type:"alert"}});
+			return;
+		}
 		Config.native('selectPeopleIOS').then((res)=>{
 			let data = res.data;
 			data = data.map((item)=>{
@@ -152,6 +174,7 @@ export default class Fieldsign extends Component{
 					<div className="addUser" onClick={this.addUser.bind(this)}>添加可查看人员<span>{this.state.authList.length==0?<s>本部门</s>:<s>{this.state.authList.length}人</s>}<i/>></span></div>
 				</div>
 				<div className="btnBottom" onClick={this.submit.bind(this)}>提交</div>
+                {this.state.dialog?this.renderDialog():undefined}
 			</div>
 			)
 	}
