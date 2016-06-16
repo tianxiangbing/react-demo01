@@ -43,8 +43,8 @@ export default class Calendar extends React.Component{
 	}
     onMonthChange(d){
 		let now = new Date(d)
-		let dateStr=now.getFullYear()+"年"+now.getMonth()+"月"
-    	this.setState({title:dateStr})
+		//let dateStr=now.getFullYear()+"年"+now.getMonth()+"月"+" (共签到"+this.props.list.length+"天)"
+    	//this.setState({title:dateStr})
     	this.props.parentCallback(now);
     }
     onDayClick(e,d,obj){

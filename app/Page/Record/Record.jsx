@@ -30,19 +30,22 @@ export default class Record extends Component{
 	getMonthDate(d){
 		let _this = this;
 		let now = new Date(d);
-		let dateStr=now.getFullYear()+"年"+(now.getMonth()+1)+"月"
-    	this.setState({title:dateStr})
     	var NOW =new Date();
     	let start = new Date(NOW.getFullYear(),NOW.getMonth(),1);
     	let end = new Date(now.getFullYear(),now.getMonth(),1);
     	if(start < end){
 			_this.setState({list:[],isReady:true});
+		    this.setState({title:now.getFullYear()+"年"+(now.getMonth()+1)+"月"+" (共签到0天)"})
     		return;
     	}
 		Config.ajax('historyOfMonth',"dateTime="+(new Date(d).getTime())).then((res)=>{
 			if(res.code ==200){
 				_this.setState({list:res.data.list,isReady:true});
 				_this.tab(0 ,new Date());
+				let dateStr=now.getFullYear()+"年"+(now.getMonth()+1)+"月"+" (共签到"+this.state.list.length+"天)"
+				//let dateStr=now.getFullYear()+"年"+(now.getMonth()+1)+"月"+" (共签到"+this.state.list.length+"天)"
+		    	_this.setState({title:dateStr})
+				//document.querySelector('.DayPicker-Caption').innerHTML=dateStr;
 			}
 		});
 	}
@@ -68,27 +71,35 @@ export default class Record extends Component{
     renderList(data,text){
     	this.setState({"recordList":data});
 		data = data.map((item)=>{
-			if((item.type == 0 || item.type == 1) && item.status != 0 ){
-				if(item.status!=4){
-					item.className ="error";
-				}else if(item.status != 1 && item.status != 2){
-					item.className ="loc-error";
+			switch(item.type){
+				case 2:{
+					item.title="外勤签到"
+					break;
 				}
-			}
-			if(item.type==0){
-				if(item.status == 0 || item.status ==4){
-					item.title="上班打卡"
-				}else{
-					item.title="上班迟到";
+				case 0:{
+					if((item.status&1)!=0){
+						item.title="上班迟到";
+						item.className ="error";
+					}else{
+						item.title="上班打卡"
+					}
+					if((item.status&4)!=0){
+						item.className +=" loc-error";
+					}
+					break;
 				}
-			}else if(item.type ==1){
-				if(item.status == 0 || item.status ==4){
-					item.title="下班打卡"
-				}else{
-					item.title="下班早退";
+				case 1:{
+					if((item.status&2)!=0){
+						item.title="下班早退";
+						item.className ="error";
+					}else{
+						item.title="下班打卡"
+					}
+					if((item.status&4)!=0){
+						item.className +=" loc-error";
+					}
+					break;
 				}
-			}else if(item.type ==2){
-				item.title="外勤签到"
 			}
 			return item;
 		});

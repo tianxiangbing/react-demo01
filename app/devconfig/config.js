@@ -15,6 +15,7 @@ import './bridge';
 	alert(JSON.parse(d).lng)
 }*/
 let Config = {
+	ajaxList :{},
 	ajax: function(url,param) {
 		//测试
 		//cookie.save('userId','82977736', { path: '/' });
@@ -44,9 +45,32 @@ let Config = {
 			method='post'
 		}
 		//qwest.setDefaultDataType('json');
+
+		for(let key in this.ajaxList){
+			if(args[0] == this.ajaxList[key]){
+				console.log('loading...')
+				return {then:function(){}};//正在请求
+			}
+		}
+		this.ajaxList[+new Date()]=args[0]
+		this.deleteUrl();
 		return qwest[method](args[0],data,t).then((res,data)=>{
+			for(let key in this.ajaxList){
+				if(args[0] == this.ajaxList[key]){
+					delete this.ajaxList[key];
+				}
+			}
 			return data;
 		})
+	},
+	deleteUrl:function(){
+		setTimeout(function(){
+			for(let key in this.ajaxList){
+				if(key +1000< +new Date()){
+					delete this.ajaxList[key];
+				}
+			}
+		},1000)
 	},
 	makeUrl:function(key,param){
 		//alert(document.cookie)

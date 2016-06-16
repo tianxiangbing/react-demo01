@@ -141,6 +141,10 @@ export default class Fieldsign extends Component{
 			this.setState({authList:data});
 		});
 	}
+	del(item,index){
+		this.state.imgList.splice(index,1);
+		this.setState({imgList:this.state.imgList,showUpload:true});
+	}
 	render(){
 		return (
 			<div className="body">
@@ -163,15 +167,15 @@ export default class Fieldsign extends Component{
 					<textarea ref="remark" onChange={this.changeText.bind(this)} value={this.state.text} maxLength={this.state.maxlength} placeholder="说点什么吧~"/>
 					<div className="upload-list">
 					{
-						this.state.imgList.map((item)=>{
-							return <div className="item">{!item.uploaded?<span className="uploading">上传中...</span>:undefined}<img src={"data:image/png;base64,"+item.data}/></div>
+						this.state.imgList.map((item,index)=>{
+							return <div className="item">{!item.uploaded?<span className="uploading">上传中...</span>:<i onClick={this.del.bind(this,item,index)} className="del iconfont icon-103"/>}<img src={"data:image/png;base64,"+item.data}/></div>
 						})
 					}	
 					</div>
 					{this.state.showUpload?<div className="upload-btn iconfont icon-qiandaotianjiazhaopian" onClick={this.selectPictrues.bind(this)}></div>:undefined}
 				</div>
 				<div className="formBox">
-					<div className="addUser" onClick={this.addUser.bind(this)}>添加可查看人员<span>{this.state.authList.length==0?<s>本部门</s>:<s>{this.state.authList.length}人</s>}<i/>></span></div>
+					<div className="addUser" onClick={this.addUser.bind(this)}>添加可查看人员<span>{this.state.authList.length==0?<s>0人</s>:<s>{this.state.authList.length}人</s>}<i/>></span></div>
 				</div>
 				<div className="btnBottom" onClick={this.submit.bind(this)}>提交</div>
                 {this.state.dialog?this.renderDialog():undefined}

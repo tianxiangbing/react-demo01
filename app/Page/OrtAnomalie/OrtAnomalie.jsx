@@ -131,6 +131,10 @@ export default class OrtAnomalie extends Component{
 			}
 		})
 	}
+	del(item,index){
+		this.state.imgList.splice(index,1);
+		this.setState({imgList:this.state.imgList,showUpload:true});
+	}
 	render(){
 		return (
 			<div className="body">
@@ -139,8 +143,8 @@ export default class OrtAnomalie extends Component{
 					<textarea ref="remark" onChange={this.changeText.bind(this)} value={this.state.text} maxLength={this.state.maxlength} placeholder="请填写原因~"/>
 					<div className="upload-list">
 					{
-						this.state.imgList.map((item)=>{
-							return <div className="item">{!item.uploaded?<span className="uploading">上传中...</span>:undefined}<img src={"data:image/png;base64,"+item.data}/></div>
+						this.state.imgList.map((item,index)=>{
+							return <div className="item">{!item.uploaded?<span className="uploading">上传中...</span>:<i onClick={this.del.bind(this,item,index)} className="del iconfont icon-103"/>}<img src={"data:image/png;base64,"+item.data}/></div>
 						})
 					}	
 					</div>
