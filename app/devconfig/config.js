@@ -1,13 +1,7 @@
 //import 'whatwg-fetch';
 import qwest from  'qwest';
 
-import '../Page/App/_App.scss';
-import '../Page/Fieldsign/_Fieldsign.scss';
-import 'react-day-picker/lib/style.css';
-import '../Page/Record/_Record.scss';
-import '../Page/SelectArea/_SelectArea.scss';
-import '../Component/_Dialog.scss';
-import '../Page/OrtAnomalie/_OrtAnomalie.scss';
+import "cssconfig.js";
 
 import cookie from 'react-cookie';
 import './bridge';
@@ -52,13 +46,16 @@ let Config = {
 				return {then:function(){}};//正在请求
 			}
 		}
-		this.ajaxList[+new Date()]=args[0]
+		this.ajaxList[+new Date()]={url:args[0],data:data};
 		this.deleteUrl();
 		return qwest[method](args[0],data,t).then((res,data)=>{
-			for(let key in this.ajaxList){
-				if(args[0] == this.ajaxList[key]){
-					delete this.ajaxList[key];
+			try{
+				for(let key in this.ajaxList){
+					if(args[0] == this.ajaxList[key].url && data == this.ajaxList[key].data){
+						delete this.ajaxList[key];
+					}
 				}
+			}catch(e){
 			}
 			return data;
 		})

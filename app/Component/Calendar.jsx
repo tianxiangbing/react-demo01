@@ -48,6 +48,12 @@ export default class Calendar extends React.Component{
     	this.props.parentCallback(now);
     }
     onDayClick(e,d,obj){
+    	if(document.querySelector('.DayPicker-Day--today')){
+	    	var nowday = document.querySelector('.DayPicker-Day--today').querySelector('.focus');
+	    	if(nowday){
+	    		nowday.className=nowday.className.replace('focus','');
+	    	}
+    	}
     	console.log(arguments)
     	if(this.state.current){
     		this.state.current.elem.className=this.state.current.elem.className.replace('focus','');

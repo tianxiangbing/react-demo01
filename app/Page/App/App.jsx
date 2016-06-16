@@ -24,7 +24,7 @@ export default class App extends Component{
 		this.isLocated = 0;
 		this.action = 0;
 		this .signType = 0;
-		this.state={disabled:1,acute:false,localInfo:{},lnglatXY:null,recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false,isShowSign:false,dialog:0};
+		this.state={disabled:{area:false,time:false},acute:false,localInfo:{},lnglatXY:null,recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false,isShowSign:false,dialog:0};
 	}
 	componentWillMount(){
 	}
@@ -73,7 +73,9 @@ export default class App extends Component{
 				this.state.localInfo.title="";
 				this.state.localInfo.desc= '';
 				this.state.localInfo.status=0;
-				_this.setState({localInfo:this.state.localInfo,disabled:1});
+				let disabled = _this.state .disabled;
+				disabled.time = false;
+				_this.setState({localInfo:this.state.localInfo,disabled:disabled});
 			}
 		},1000)
 		this.isLocated = 0;
@@ -120,13 +122,15 @@ export default class App extends Component{
 					title = localStorage.getItem("locName");
 					desc = localStorage.getItem("locAddr");
 				}
+				let disabled = _this.state .disabled;
+				disabled.area = true;
 				_this.setState({
 					localInfo: {
 						title: title,
 						desc: desc,
 						status: 1
 					},
-					disabled: --_this.state.disabled
+					disabled: disabled
 				});
 			}
 
@@ -275,16 +279,21 @@ export default class App extends Component{
 	            let date = new Date(ymd[0],ymd[1]-1,ymd[2],hms[0],hms[1]); 
 	            let datestring = date.getFullYear()+"-"+ ("0"+(date.getMonth()+1)).slice(-2) +"-"+("0"+date.getDate()).slice(-2) + " "+weekArr[date.getDay()]
 	            				+" "+ ("0"+date.getHours()).slice(-2)+':'+("0"+date.getMinutes()).slice(-2);
-                this.setState({'time':datestring,disabled:--this.state.disabled});
+				let disabled = this.state .disabled;
+				disabled.time = true;
+                this.setState({'time':datestring,disabled:disabled});
             }else{
                 //AlertBox.alerts('获取时间异常');
                 this.setState({dialog:{show:true,msg:"获取时间异常",type:"alert"}});
+                let disabled = this.state .disabled;
+				disabled.time = false;
+                this.setState({'time':datestring,disabled:disabled});
             }
 		})
 	}
 	//显示上下班
 	showSign(){
-		if(this.state.disabled==-1){
+		if(this.state.disabled.area&&this.state.disabled.time ){
 			this.setState({isShowSign:true});
 		}
 	}
@@ -371,11 +380,12 @@ export default class App extends Component{
 		this.setState({dialog:0})
 	}
 	jump(url){
-		if(this.state.disabled!=-1){
-			return;
+		if(this.state.disabled.area&&this.state.disabled.time ){
+			this.setLocalStorage();
+			location.href="#"+url;
+		}else{
+			return false;
 		}
-		this.setLocalStorage();
-		location.href="#"+url;
 	}
 	render(){
 		return (
@@ -432,7 +442,7 @@ export default class App extends Component{
 					<SignList recordList = {this.state.recordList} showText={this.state.showText}/>
 					</div>
 				</div>
-				<div className={this.state.disabled>=0 ? "bottomButton bigButton disabled": "bottomButton bigButton"}>
+				<div className={(this.state.disabled.area==false ||this.state.disabled.time==false ) ? "bottomButton bigButton disabled": "bottomButton bigButton"}>
 					<div className="button lbutton" onClick={this.showSign.bind(this)}>
 						<a className="iconfont icon-qiandaokaoqindaqia"></a>
 						<p>考勤打卡</p>

@@ -1,0 +1,16 @@
+$color-left-button:#87c8b0;
+$color-left-button-active:#4caf89;
+$color-right-button:#e3c795;
+$color-right-button-active:#bd9851;
+$focusColor :#4e90cd;
+$borderFocus:#4e90cd;
+$borderText:#4e90cd;
+$fontColorRed:#4e90cd;
+@import '../Page/App/_App.scss';
+@import '../Page/Fieldsign/_Fieldsign.scss';
+@import '../Page/Record/_Record.scss';
+@import '../Page/SelectArea/_SelectArea.scss';
+@import '../Component/_Dialog.scss';
+@import '../Page/OrtAnomalie/_OrtAnomalie.scss';
+
+@import '../../node_modules/react-day-picker/lib/style.css';

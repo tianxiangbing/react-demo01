@@ -73,11 +73,12 @@ $fontSize4:/*18px*2*/pxToRem(34);
 $whiteColor:#fff;
 $borderColor:#cdcdcd;
 $borderColor2:#cecece;
-$focusColor:#fa565a;
+$focusColor:#fa565a !default;
 $fontColorGray:#9a9a9a;
 $fontColorBlack:#222222;
-$fontColorRed:#f85e57;
-
+$fontColorRed:#f85e57 !default;
+$borderFocus:#fd5851 !default;
+$borderText:#f6595b !default;
 
 html,
 	body{
@@ -157,3 +158,8 @@ input,textarea{
 .hide{
 	display:none !important;
 }
+
+$color-left-button:#4ec2b5 !default;
+$color-left-button-active:#21a497 !default;
+$color-right-button:#efbc6b !default;
+$color-right-button-active:#d2974d !default;

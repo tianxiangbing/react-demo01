@@ -144,6 +144,7 @@ export default class Fieldsign extends Component{
 	del(item,index){
 		this.state.imgList.splice(index,1);
 		this.setState({imgList:this.state.imgList,showUpload:true});
+		this.imgList.splice(index,1);
 	}
 	render(){
 		return (

@@ -16,9 +16,9 @@ var htmlPlugin = new HtmlWebpackPlugin({
     filename: '../index.html',
     template: "template.html"
 });
-var modulesDirectories = ["web_modules", "node_modules", "bower_components","app/devconfig"];
+var modulesDirectories = ["web_modules", "node_modules", "bower_components","app/devconfig","app/cyconfig"];
 if(process.env.NODE_ENV =="test"){
-     modulesDirectories = ["web_modules", "node_modules", "bower_components","app/config"];
+     modulesDirectories = ["web_modules", "node_modules", "bower_components","app/config","app/cyconfig"];
 }
 var config = {
     entry: {
@@ -45,6 +45,7 @@ var config = {
             }
         }, {
             test: /\.scss$/,
+            exclude: /(node_modules|bower_components)/,
             loader: extractCSS.extract('style-loader', 'css?-url!sass?includePaths[]=' + path.resolve(__dirname, 'app/scss'))
         }, {
             test: /\.(eot|woff|ttf|svg)/,
@@ -74,6 +75,10 @@ var config = {
 if (process.env.NODE_ENV == "test"||process.env.NODE_ENV == "dev") {
     config.devtool = "source-map";
     config.output.publicPath = "/";
+}
+if(process.env.NODE_ENV =="production"){
+    config.resolve.modulesDirectories = ["web_modules", "node_modules", "bower_components","app/devconfig","app/msconfig"];
+    config.output.path=path.resolve(__dirname, "masheng/build")
 }
 console.log(config)
 module.exports = config

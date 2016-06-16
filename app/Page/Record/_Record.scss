@@ -236,9 +236,9 @@ outline:none;
   }
   .expandCalendar{
     float:right;
-    border:1px solid #f6595b;
+    border:1px solid $borderText;
     padding:pxToRem(12) pxToRem(20); 
-    color:#f6595b;
+    color:$borderText;
     vertical-align: middle;
     border-radius:pxToRem(50);
     i{
@@ -264,6 +264,10 @@ outline:none;
     line-height:pxToRem(35);
     background-color:#f2f2f2;
     border-bottom:1px solid #d0d0d0;
+    margin-top:pxToRem(654);
+    &.space2{
+      margin-top:pxToRem(102);
+    }
   }
   .tabTitle{
     margin-bottom:pxToRem(30);
@@ -277,7 +281,7 @@ outline:none;
       &.focus{
         color:$focusColor;
         font-weight:bold;
-        border-bottom-color:#fd5851;
+        border-bottom-color:$borderFocus;
       }
     }
     overflow:hidden;
@@ -288,10 +292,24 @@ outline:none;
   float:left;
   width:100%;
   border-bottom:1px solid #cecece;
+  position:fixed;
+  top:0;
 }
-  .listSign{
+  .mylist{
+    overflow: auto;
     margin-top:pxToRem(15);
+    position: absolute;
+    bottom: 0;
+    top: pxToRem(654+60+35+25);
+    &.mylist2{
+      top: pxToRem(102+60+35+25);
+    }
+    width: 100%;
     .item:last-child .desc{
       border-bottom:none;
     }
   }
+.record-body{
+  height:100%;
+  overflow:hidden;
+}

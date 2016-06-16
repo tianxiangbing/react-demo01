@@ -1,6 +1,9 @@
 @import "base";
 .header{
 	background-color:$whiteColor;
+	position:fixed;
+	width:100%;
+	z-index:2;
 }
 .mapContainer{
 	border:1px solid #cecece;
@@ -229,15 +232,15 @@
 			font-size:pxToRem(60);
 		}
 		&.lbutton a{
-			background-color:#4ec2b5;
+			background-color:$color-left-button;
 			&:active{
-				background-color:#21a497;
+				background-color:$color-left-button-active;
 			}
 		}
 		&.rbutton a{
-			background-color:#efbc6b;
+			background-color:$color-right-button;
 			&:active{
-				background-color:#d2974d;
+				background-color:$color-right-button-active;
 			}
 		}
 	}
