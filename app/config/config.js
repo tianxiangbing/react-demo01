@@ -30,7 +30,7 @@ let Config = {
 				return response.json()
 			});*/
 
-		return qwest.get("/mock/" + method + ".json").then((res, data) => {
+		return qwest.get("../mock/" + method + ".json").then((res, data) => {
 			return data;
 		})
 	}
