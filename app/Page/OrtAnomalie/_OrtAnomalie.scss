@@ -1,0 +1,14 @@
+@import 'base';
+.bigredbtn{
+	height:pxToRem(90);
+	line-height:pxToRem(90);
+	color:$whiteColor;
+	/* font-size:$fontSize2; */
+	@extend .fontSize2;
+	background-color:$focusColor;
+	text-align:center;
+	width:80%;
+	margin:0 auto;
+	border-radius:pxToRem(90);
+	margin-top:pxToRem(80);
+}

@@ -1,0 +1,118 @@
+@import 'base';
+.bigMap{
+	height:pxToRem(600);
+	z-index: 2;
+}
+.panel{
+	position:absolute;
+	top:0;
+	left:0;
+	padding-top:pxToRem(600);
+	padding-bottom:pxToRem(90);
+	overflow:auto;
+	width:100%;
+	height:100%;
+	background-color: $whiteColor;
+    -webkit-overflow-scrolling: touch;
+}
+.amap_lib_placeSearch_page,.amap_lib_placeSearch_poi{display:none !important;}
+.amap-marker,.amap_lib_placeSearch_page,.poi-more,.poi-tel,.amap-overlays,.locs-list-container .amap_lib_placeSearch_poi{
+display: none !important;
+}
+.amap_lib_placeSearch{
+	border-left:none;
+	border-right:none;
+	/* font-size:$fontSize1 !important;  */
+	@extend .fontSize1;
+	p.poi-addr{
+		line-height: 1.6 !important; 
+		@extend .fontSize;
+	}
+}
+.amap_lib_placeSearch .poibox .poi-title{
+	/* font-size:$fontSize2 !important;  */
+	@extend .fontSize1;
+	line-height: 1.6;
+}
+.amap_lib_placeSearch_list{
+	padding:0 0 0 pxToRem(30);
+	border:none;
+	li:last-child{
+		border-bottom:none;
+	}
+	.poibox{
+		padding:pxToRem(25) 0;
+		border-bottom:1px solid #cfcfcf;
+		.poi-title,.poi-info{
+			margin:0;
+		}
+		.poi-name{
+			color:$fontColorBlack;
+		}
+		.poi-info{
+			p.poi-addr{
+				color:#9b9b9b;
+			}
+		}
+		i{
+			display:none;
+		}
+		&.active{
+		/* 	background-color: transparent;
+		background:url(right.png) no-repeat no-repeat right center;
+		-webkit-background-size:16px 16px;
+		background-size:16px 16px; */
+			.poi-name{
+				color:#f95048 !important;
+			}
+			i{
+				display:block;
+				width:16px;
+				height:16px;
+				position:absolute;
+				top:pxToRem(60);
+				right:pxToRem(50);
+				color:#f55d4f;
+				@extend .fontSize4;
+			}
+		}
+		&.active:last{
+			content:' ';
+		}
+	}
+} 
+.amap-marker:first-child{
+display: block !important;
+}
+.markerShow{
+display: block !important;
+}
+.selectArea{
+	.btnBottom{/* 
+		  height: 45px;
+		  line-height: 45px;
+		  font-size: $fontSize1;  */
+		@extend .fontSize1;
+	}
+}
+.amap_lib_placeSearch .poibox.active, .amap_lib_placeSearch .poibox.hover, .amap_lib_placeSearch .poibox:hover{
+	background-color:$whiteColor !important;
+}
+.mapContent{
+	position:relative;
+	i{
+		height:pxToRem(72);
+		border:1px solid $borderColor2;
+		border-radius:pxToRem(10);
+		position:absolute;
+		bottom:pxToRem(20);
+		left:pxToRem(20);
+		font-size:pxToRem(50);
+		padding:pxToRem(10);
+		background-color:$whiteColor;
+		display:block;
+		z-index:33;
+		line-height:1;
+		overflow:hidden;
+	}
+}
