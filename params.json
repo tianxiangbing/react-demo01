@@ -1,0 +1,6 @@
+{
+  "name": "Sign-react",
+  "tagline": "签到",
+  "body": "# sign\r\n签到\r\n`cmd:`\r\n\r\n\tset NODE_ENV=test&& webpack -p\r\n\tset NODE_ENV=dev&& webpack -p\r\n\tset NODE_ENV=caiyun&& webpack -p\r\n\tset NODE_ENV=production&& webpack -p",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
