@@ -23,7 +23,7 @@ if (process.env.NODE_ENV == "test") {
 var config = {
     entry: {
         app: ["./app/app.jsx"],
-        vendor: ["react", "react-dom", 'whatwg-fetch', 'react-router']
+        vendor: ["react", "react-dom", 'react-router']
     },
     output: {
         path: path.resolve(__dirname, "caiyun/build"),
@@ -82,6 +82,7 @@ if (process.env.NODE_ENV == "production") {
 }
 if (process.env.NODE_ENV == "static") {
     config.resolve.modulesDirectories = ["web_modules", "node_modules", "bower_components", "app/config", "app/cyconfig"];
+    config.devtool = "source-map";
     config.output.path = path.resolve(__dirname, "static/build")
 }
 console.log(config)
