@@ -82,7 +82,7 @@ if (process.env.NODE_ENV == "production") {
 }
 if (process.env.NODE_ENV == "static") {
     config.resolve.modulesDirectories = ["web_modules", "node_modules", "bower_components", "app/config", "app/cyconfig"];
-    config.devtool = "source-map";
+    /*config.devtool = "source-map";*/
     config.output.path = path.resolve(__dirname, "static/build")
 }
 console.log(config)

@@ -7,7 +7,7 @@ import 'cssconfig.js';
 let Config = {
 	ajax: function(url, param) {
 		var args = Array.prototype.slice.call(arguments, 0);
-		args[0] = "../mock/" + args[0] + ".json";
+		args[0] = "mock/" + args[0] + ".json";
 		if (typeof args[1] == "string") {
 			args[0] += "?" + args[1];
 			args.pop();
@@ -30,7 +30,7 @@ let Config = {
 				return response.json()
 			});*/
 
-		return qwest.get("../mock/" + method + ".json").then((res, data) => {
+		return qwest.get("mock/" + method + ".json").then((res, data) => {
 			return data;
 		})
 	}
