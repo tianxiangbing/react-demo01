@@ -10,6 +10,9 @@ export default class Calendar extends React.Component{
 	componentDidUpdate(){
 		document.querySelector('.DayPicker-Caption').innerHTML=this.props.myTitle;
 	}
+	componentDidMount(){
+		document.querySelector('.DayPicker-Caption').innerHTML=this.props.myTitle;
+	}
 	renderDay(d){
 		//console.log(arguments)
 		//this.setState({title:+new Date()})
@@ -18,18 +21,17 @@ export default class Calendar extends React.Component{
 		let wq = ''
 		_this.props.list.forEach((item,index)=>{
 			if(index+1 == d.getDate()){
+				if(item&2==2){
+					//外勤
+					wq=<i>外</i>
+				}
 				if(item <128){
 					if(item >0){//工作日
 						cls += " ok";
 					}
-					if(item == 3){
-						//外勤
-						wq=<i>外</i>
-					}
 				}else{
 					cls += " error";
 				}
-
 			}
 		});
 		if(d.toDateString() == (new Date()).toDateString()){

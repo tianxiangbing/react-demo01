@@ -29,6 +29,7 @@ export default class Record extends Component {
 				showText: "",
 				focus: 0,
 				currentDate: new Date()
+				,top:720
 			}
 			/*var scale = 1 / devicePixelRatio;
 			document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
@@ -37,6 +38,9 @@ export default class Record extends Component {
 	componentDidMount() {
 		let now = new Date();
 		this.getMonthDate(now);
+		setInterval(()=>{
+			this.resetTop();
+		},50)
 	}
 	getMonthDate(d) {
 		let _this = this;
@@ -57,6 +61,11 @@ export default class Record extends Component {
 		_this.setState({
 						list: []
 					});
+		let dateStr = now.getFullYear() + "年" + (now.getMonth() + 1) + "月" + " (共签到0天)"
+			//let dateStr=now.getFullYear()+"年"+(now.getMonth()+1)+"月"+" (共签到"+this.state.list.length+"天)"
+		_this.setState({
+			title: dateStr
+		});
 		Config.ajax('historyOfMonth', "dateTime=" + (new Date(d).getTime())).then((res) => {
 			if (res.code == 200) {
 				_this.setState({
@@ -66,18 +75,26 @@ export default class Record extends Component {
 				_this.tab(0, new Date());
 				let count = 0;
 				this.state.list.forEach((item)=>{
-					if(item!=0){
+					if(item!=0&&item!=256){
 						count++;
 					}
 				})
+
 				let dateStr = now.getFullYear() + "年" + (now.getMonth() + 1) + "月" + " (共签到" + count + "天)"
 					//let dateStr=now.getFullYear()+"年"+(now.getMonth()+1)+"月"+" (共签到"+this.state.list.length+"天)"
 				_this.setState({
-						title: dateStr
-					})
+					title: dateStr
+				});
 					//document.querySelector('.DayPicker-Caption').innerHTML=dateStr;
 			}
 		});
+	}
+	resetTop(){
+		document.querySelector('.topContainer').offsetHeight
+		let tabTitle = document.querySelector('.tabTitle');
+		let top =tabTitle.offsetTop;
+		let height = tabTitle.offsetHeight;
+		this.setState({top:top+height});
 	}
 	expand() {
 		this.setState({
@@ -129,14 +146,16 @@ export default class Record extends Component {
 					}
 				case 1:
 					{
-						if ((item.status & 2) != 0) {
-							item.title = "下班早退";
-							item.className = "error";
-						} else {
-							item.title = "下班打卡"
+						if((item.status&2)!=0){
+							item.title="下班早退";
+							item.className ="error";
+						}else if((item.status&8)!=0){
+							item.title="下班打卡（次日签到）";
+						}else{
+							item.title="下班打卡"
 						}
-						if ((item.status & 4) != 0) {
-							item.className += " loc-error";
+						if((item.status&4)!=0){
+							item.className +=" loc-error";
 						}
 						break;
 					}
@@ -164,27 +183,35 @@ export default class Record extends Component {
 					<div className="dateContainer"> 
 					{this.state.expand?<Calendar parentDayClick={this.parentDayClick.bind(this)} list = {this.state.list} parentCallback={this.getMonthDate.bind(this)} myTitle={this.state.title}/>:undefined}
 					</div>
-					<div className="tagTips">
-						<div className="tag tag-err">
-						<i/>
-						异常
+					{
+						this.state.expand?<div className="tagTips">
+							<div className="tag tag-err">
+							<i/>
+							异常
+							</div>
+							<div className="tag tag-ok">
+							<i/>
+							正常
+							</div>
+							<div className="expandCalendar" onClick={this.expand.bind(this)}>{this.state.expand?<span><i className="iconfont icon-hebing"/>收起</span>:<span><i className="iconfont icon-zhankai" />展开</span>}</div>
 						</div>
-						<div className="tag tag-ok">
-						<i/>
-						正常
-						</div>
-						<div className="expandCalendar" onClick={this.expand.bind(this)}>{this.state.expand?<span><i className="iconfont icon-hebing"/>收起</span>:<span><i className="iconfont icon-zhankai" />展开</span>}</div>
-					</div>
+						:<div className="tagTips"><div className="tag">{
+							(()=>{
+								let date = new Date(this.state.currentDate);
+								return date.getFullYear()+"年"+(date.getMonth()+1)+"月"+date.getDate()+"日";
+							})()
+						}</div><div className="expandCalendar" onClick={this.expand.bind(this)}>{this.state.expand?<span><i className="iconfont icon-hebing"/>收起</span>:<span><i className="iconfont icon-zhankai" />展开</span>}</div></div>
+					}
+					
 				</div>
 				<div className="recordList">
-					<div className={this.state.expand?"space":"space space2"}>&nbsp;</div>
 					<div className="tabContainer">
 						<div className="tabTitle">
 							<div className={this.state.focus==0?"tab focus":"tab"} onClick={this.tab.bind(this,0,this.state.currentDate)}>我的签到</div>
 							<div className={this.state.focus==1?"tab focus":"tab"} onClick={this.tab.bind(this,1,this.state.currentDate)}>他人外勤</div>
 						</div>
-						<div className={this.state.expand?"mylist":"mylist mylist2"}>
-						<SignList recordList = {this.state.recordList} showText={this.state.showText}/>
+						<div className="mylist" style={{top:this.state.top}}>
+							<SignList recordList = {this.state.recordList} showText={this.state.showText}/>
 						</div>
 					</div>
 				</div>

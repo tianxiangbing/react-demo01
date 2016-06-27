@@ -218,6 +218,8 @@ export default class App extends Component{
 						if((item.status&2)!=0){
 							item.title="下班早退";
 							item.className ="error";
+						}else if((item.status&8)!=0){
+							item.title="下班打卡（次日签到）";
 						}else{
 							item.title="下班打卡"
 						}
