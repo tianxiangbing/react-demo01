@@ -311,3 +311,37 @@ outline:none;
   height:100%;
   overflow:hidden;
 }
+.item2{ 
+  .time{
+    padding-top:pxToRem(15);
+  }
+  .title{
+    line-height: pxToRem(70);
+  }
+}
+.userAvatar{
+    margin-bottom:pxToRem(14);
+    vertical-align: top;
+    text-align: center;
+    display:inline-block;
+    margin-right: pxToRem(7);
+    img,i,.img{
+      display: block;
+      height:pxToRem(70);
+      width:pxToRem(70);
+      line-height:pxToRem(70);
+      border-radius: pxToRem(70);
+      overflow:hidden;
+      color:#fff;
+      @extend .fontSize;
+    }
+    i{
+      border:1px solid #FA565A;
+      @extend .fontSize2;
+      color:#FA565A;
+    }
+    .userName{
+      margin-top:pxToRem(10);
+      @extend .fontSize1;
+    }
+  }

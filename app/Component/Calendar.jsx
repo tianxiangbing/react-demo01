@@ -21,7 +21,8 @@ export default class Calendar extends React.Component{
 		let wq = ''
 		_this.props.list.forEach((item,index)=>{
 			if(index+1 == d.getDate()){
-				if(item&2==2){
+				let s = item&2;
+				if(s==2){
 					//外勤
 					wq=<i>外</i>
 				}

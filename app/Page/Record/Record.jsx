@@ -211,7 +211,7 @@ export default class Record extends Component {
 							<div className={this.state.focus==1?"tab focus":"tab"} onClick={this.tab.bind(this,1,this.state.currentDate)}>他人外勤</div>
 						</div>
 						<div className="mylist" style={{top:this.state.top}}>
-							<SignList recordList = {this.state.recordList} showText={this.state.showText}/>
+							<SignList recordList = {this.state.recordList} showText={this.state.showText} index={this.state.focus}/>
 						</div>
 					</div>
 				</div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import Config from 'config';
+import UsesrAvatar from './UserAvatar';
 
 let {Component} = React;
 export default class SignList extends Component{
@@ -8,6 +9,7 @@ export default class SignList extends Component{
 	}
 	componentDidMount(){
 		//alert(JSON.stringify(this.props.recordList) )
+		console.log(JSON.stringify(this.props.recordList))
 	}
 	formatTime(time){
 		let timeStr = new Date(time);
@@ -36,10 +38,26 @@ export default class SignList extends Component{
 					{
 						(this.props.recordList||[]).map((item)=>{
 							return (
-								<div className={"item "+item.className}>
+								<div className={this.props.index !=1 ?"item "+item.className :"item "+item.className + " item2" }>
 									<div className="time">{this.formatTime(item.time)}</div>
 									<div className="desc">
-										<div className="title">{item.title}</div>
+										{
+											(()=>{
+												if(this.props.index ==1){
+													return (
+														<div className="title">
+															<div className="userAvatar">
+																<UsesrAvatar item={item} userName={item.userName}/>
+															</div>
+															{item.userName}
+														</div>
+														);
+												}else{
+													return (<div className="title">{item.title}</div>);
+												}
+											})()
+										}
+										
 										<div className="position"><i className="iconfont icon-qiandaodingwei"/>{item.shortPlaceName}</div>
 										{
 											(()=>{

@@ -24,6 +24,8 @@ export default class App extends Component{
 		this.isLocated = 0;
 		this.action = 0;
 		this .signType = 0;
+		this.interval = null;
+		this.disabled = {area:false,time:false};
 		this.state={disabled:{area:false,time:false},acute:false,localInfo:{},lnglatXY:null,recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false,isShowSign:false,dialog:0};
 	}
 	componentWillMount(){
@@ -75,6 +77,7 @@ export default class App extends Component{
 				this.state.localInfo.status=0;
 				let disabled = _this.state .disabled;
 				disabled.time = false;
+				this.disabled.time = false;
 				_this.setState({localInfo:this.state.localInfo,disabled:disabled});
 			}
 		},1000)
@@ -124,6 +127,7 @@ export default class App extends Component{
 				}
 				let disabled = _this.state .disabled;
 				disabled.area = true;
+				_this.disabled.area = true;
 				_this.setState({
 					localInfo: {
 						title: title,
@@ -173,7 +177,9 @@ export default class App extends Component{
 			this.updateTime();
 			this.initMap();
 		},1000*60);
-
+		this.interval = setInterval(()=>{
+			this.setState({disabled:this.disabled});
+		},1000)
 	/*	console.log('will')
 		var scale = 1 / devicePixelRatio;
 		document.querySelector('meta[name="viewport"]').setAttribute('content','initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
@@ -181,6 +187,7 @@ export default class App extends Component{
 	}
 	componentWillUnmount() {
 	    this.timer&&clearInterval(this.timer);  
+	    this.interval && clearInterval(this.interval); 
 	}
 	select(obj){
 		this.state.currCorp=obj;
@@ -283,12 +290,14 @@ export default class App extends Component{
 	            				+" "+ ("0"+date.getHours()).slice(-2)+':'+("0"+date.getMinutes()).slice(-2);
 				let disabled = this.state .disabled;
 				disabled.time = true;
+				this.disabled.time = true;
                 this.setState({'time':datestring,disabled:disabled});
             }else{
                 //AlertBox.alerts('获取时间异常');
                 this.setState({dialog:{show:true,msg:"获取时间异常",type:"alert"}});
                 let disabled = this.state .disabled;
 				disabled.time = false;
+				this.disabled.time = false;
                 this.setState({'time':datestring,disabled:disabled});
             }
 		})
