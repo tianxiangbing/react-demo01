@@ -66,6 +66,8 @@ export default class OrtAnomalie extends Component{
 			if(res.code==200){
 				//location.href="/";
 				history.back()
+			}else{
+				this.setState({dialog:{show:true,msg:res.msg ,type:"alert"}});
 			}
 		})
 	}
@@ -126,6 +128,8 @@ export default class OrtAnomalie extends Component{
 							imgList: _this.state.imgList
 						});
 						_this.imgList.push(data.url);
+					}else{
+						this.setState({dialog:{show:true,msg:res.msg ,type:"alert"}});
 					}
 				});
 			}

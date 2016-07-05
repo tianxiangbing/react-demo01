@@ -65,6 +65,9 @@ export default class App extends Component{
 		if(e){
 			e.preventDefault();
 			e.stopPropagation();
+			let localInfo = this.state.localInfo;
+			localInfo.status =-1;
+			this.setState({localInfo:localInfo});
 		}
 		let lnglatXY;
 		let map = new AMap.Map('container');
@@ -76,11 +79,11 @@ export default class App extends Component{
 				this.state.localInfo.desc= '';
 				this.state.localInfo.status=0;
 				let disabled = _this.state .disabled;
-				disabled.time = false;
-				this.disabled.time = false;
+				disabled.area = false;
+				this.disabled.area = false;
 				_this.setState({localInfo:this.state.localInfo,disabled:disabled});
 			}
-		},1000)
+		},1000*10)
 		this.isLocated = 0;
 		this.getLngXY().then((res) => {
 			if(res.code != 200)return;
@@ -128,6 +131,7 @@ export default class App extends Component{
 				let disabled = _this.state .disabled;
 				disabled.area = true;
 				_this.disabled.area = true;
+				console.log(disabled)
 				_this.setState({
 					localInfo: {
 						title: title,
@@ -291,6 +295,7 @@ export default class App extends Component{
 				let disabled = this.state .disabled;
 				disabled.time = true;
 				this.disabled.time = true;
+				console.log(disabled)
                 this.setState({'time':datestring,disabled:disabled});
             }else{
                 //AlertBox.alerts('获取时间异常');
@@ -440,7 +445,7 @@ export default class App extends Component{
 										}else if(this.state.localInfo.status == 0){
 											return (<div  onClick={this.initMap.bind(this)}><h2>定位失败</h2><p>地点获取失败，请点击<span className="replay" >这里</span>重试</p></div>)
 										}else{
-											return (<div  onClick={this.initMap.bind(this)}><h2>正在获取位置</h2></div>)
+											return (<div ><h2>正在获取位置</h2></div>)
 										}
 									})()
 								}

@@ -106,16 +106,18 @@ export default class Record extends Component {
 		date = new Date(date).getTime();
 		this.setState({
 			currentDate: date,
-			focus: index
+			focus: index,
+			recordList:[]
 		});
 		let param = "dateTime=" + date;
+		this.xhr&&this.xhr.abort();
 		if (index == 0) {
-			Config.ajax('getDaySign', param).then((data) => {
+			this.xhr = Config.ajax('getDaySign', param).then((data) => {
 				this.renderList(data.data.list, '您还没有签到哦~');
 			});
 		} else {
 			//他人外勤
-			Config.ajax('historyOfDay', param).then((data) => {
+			this.xhr = Config.ajax('historyOfDay', param).then((data) => {
 				this.renderList(data.data.list, '本日没有他人的外勤记录~');
 			});
 		}

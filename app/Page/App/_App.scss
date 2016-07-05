@@ -153,7 +153,8 @@
 		clear:both;
 		.time{
 			float:left;
-			/* width:pxToRem(132); */
+			
+			white-space: nowrap;
 			/* font-size:$fontSize4; */
 			@extend .fontSize4;
       		font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica;
@@ -189,11 +190,13 @@
 		}
 		.remark{
 			margin:pxToRem(20) 0 0 0;
-			/* width:pxToRem(540); */
+			width:pxToRem(500); 
+			word-break: break-all;
 			/* font-size:$fontSize1; */
 			@extend .fontSize1;
 			color:#544b4b;
 			line-height:1.5;
+
 		}
 	}
 }
