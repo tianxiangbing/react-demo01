@@ -31,7 +31,22 @@ export default class App extends Component{
 	componentWillMount(){
 	}
 	getLngXY(){
-		return Config.native('getPosition')
+		let lastgetposition = new Date(parseInt(localStorage.getItem('lastgetposition')))||0;
+		let lnglatXY = JSON.parse(localStorage.getItem('lnglatXY'))||null
+		if( (+new Date() - lastgetposition> 1000*3 ||!lnglatXY ||!lastgetposition )&&localStorage.getItem('isSet')!=1){
+			localStorage.setItem('lastgetposition',+new Date());
+			return Config.native('getPosition')
+		}else{
+			return {
+				then:function(t){
+					t && t({
+						"code": 200,
+						"msg": "成功",
+						"data": lnglatXY
+					});
+				}
+			}
+		}
 	}
 	getQuery(name, type, win) {
         var reg = new RegExp("(^|&|#)" + name + "=([^&]*)(&|$|#)", "i");
@@ -90,9 +105,12 @@ export default class App extends Component{
 			this.isLocated = 1;
 			lnglatXY = res.data;
 			let setPosition = localStorage.getItem('lnglatXY')
-			if(setPosition){
+			console.log(setPosition)
+			if(setPosition && localStorage.getItem('isSet')==1){
 				map.setZoomAndCenter(14,JSON.parse(setPosition));
 				localStorage.removeItem('lnglatXY');
+            	lnglatXY = JSON.parse(setPosition);
+				localStorage.setItem('isSet',0);
 			}else{
 				map.setZoomAndCenter(14,lnglatXY);
 			}
@@ -140,6 +158,7 @@ export default class App extends Component{
 					},
 					disabled: disabled
 				});
+				localStorage.setItem("locName",'')
 			}
 
 		});
@@ -151,11 +170,12 @@ export default class App extends Component{
 		})*/.then((data)=>{
 			data = data.data;
 			this.setState({corpList:data});
+			let orgId= localStorage.getItem('orgId');
 			if(this.getQuery('orgId')){
 				cookie.save('orgId',this.getQuery('orgId'),{ path: '/' });
+				orgId = this.getQuery('orgId')
 				localStorage.setItem('orgId',this.getQuery('orgId'));
 			}
-			let orgId= localStorage.getItem('orgId');
 			let currCorp = {};
 			if(orgId && orgId !="undefined"){
 				data.forEach((item)=>{
@@ -203,6 +223,7 @@ export default class App extends Component{
 		this.updateTime();
 	}
 	bindSign(){
+		this.setState({"recordList":[]});
 		Config.ajax('getDaySign',"dateTime="+(new Date().getTime())).then((data)=>{
 			data = data.data.list;
 			data.result = data.map((item)=>{
@@ -299,7 +320,7 @@ export default class App extends Component{
                 this.setState({'time':datestring,disabled:disabled});
             }else{
                 //AlertBox.alerts('获取时间异常');
-                this.setState({dialog:{show:true,msg:"获取时间异常",type:"alert"}});
+                this.setState({dialog:{show:true,msg:"获取时间异常,退出重进试试",type:"alert"}});
                 let disabled = this.state .disabled;
 				disabled.time = false;
 				this.disabled.time = false;
@@ -334,6 +355,7 @@ export default class App extends Component{
 			longitude:this.state.lnglatXY[0],
 			latitude:this.state.lnglatXY[1]
 		}
+		console.log(data)
 		_this.setLocalStorage();
 		/*//test
 		location.href="#ortanomalie";
@@ -363,7 +385,9 @@ export default class App extends Component{
 						_this.sign(type);
 					}
 				})*/
-				this.setState({dialog:{mask:true,hide:this.hideDialog.bind(this),show:true,msg:<div className="acuteDialog"><i className="iconfont icon-qiandaodidianyichang"/><div className="title">地点异常</div><p className="info">当前地点不在公司范围内</p></div>,buttons:<div className="dialog-button"><a href="#ortanomalie">报告原因</a><a onClick={this.submitSign.bind(this)}>确认打卡</a></div>,type:"confirm"}});
+				this.setState({dialog:{mask:true,hide:this.hideDialog.bind(this),show:true,msg:<div className="acuteDialog"><i className="iconfont icon-qiandaodidianyichang"/><div className="title">地点异常</div><p className="info">当前地点不在公司范围内</p></div>,buttons:<div className="dialog-button"><a href={"#ortanomalie/"+type}>报告原因</a><a onClick={this.submitSign.bind(this)}>确认打卡</a></div>,type:"confirm"}});
+			}else if(res.code ==410){
+				this.setState({dialog:{show:true,msg:"用户状态失效,退出重进试试",type:"alert"}});
 			}
 		})
 	}

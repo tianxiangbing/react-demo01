@@ -214,7 +214,7 @@ let Config = {
 						window.selectPeopleIOS && window.selectPeopleIOS("500", orgId, orgName);
 					} else {
 						//alert("500&"+orgId+"&"+orgName)
-						window.Native_Bridge_uban.onJsCall('selectPeopleFromJs', 'selectPeople', "500&" + orgId + "&" + orgName);
+						window.Native_Bridge_uban.onJsCall('selectPeopleFromJs', 'selectPeople', "500&" + orgId + "&" + orgName + '&' + data);
 					}
 					return {
 						then: function(f) {

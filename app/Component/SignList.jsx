@@ -61,7 +61,7 @@ export default class SignList extends Component{
 										<div className="position"><i className="iconfont icon-qiandaodingwei"/>{item.shortPlaceName}</div>
 										{
 											(()=>{
-												if(item.type==2||item.type==1){
+												if(item.remark){
 													return <div className="remark">{item.remark}</div>
 												}
 											})()

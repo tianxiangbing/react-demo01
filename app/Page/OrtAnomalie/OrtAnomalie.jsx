@@ -44,7 +44,7 @@ export default class OrtAnomalie extends Component{
 		let data ={
 			orgId:this.outInfo.orgId,
 			orgName:this.outInfo.orgName,
-			type:1,
+			type:this.props.params.type,
 			placeName:this.outInfo.locFullName,
 			shortPlaceName:this.outInfo.locName,
 			longitude:this.outInfo.locLng,

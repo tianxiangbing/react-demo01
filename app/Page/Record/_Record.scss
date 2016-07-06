@@ -296,6 +296,7 @@ outline:none;
   .mylist{
     background-color:$whiteColor;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     bottom: 0;
     padding-top:pxToRem(14);
     position:absolute;

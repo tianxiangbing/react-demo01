@@ -29,5 +29,6 @@ render((
     <Route path="/fieldsign" component={Fieldsign}/>
     <Route path="/selectarea" component={SelectArea}/>
     <Route path="/ortanomalie" component={OrtAnomalie}/>
+    <Route path="/ortanomalie/:type" component={OrtAnomalie}/>
   </Router>
 ), document.getElementById('app'))

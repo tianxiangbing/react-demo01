@@ -2,6 +2,8 @@ import React from 'react';
 let {Component} = React;
 //import Styles from './SelectArea.scss';
 
+import Config from 'config';
+
 export default class SelectArea extends Component{
 	constructor(props){
 		super(props);
@@ -10,6 +12,7 @@ export default class SelectArea extends Component{
 		this.marker = null;
 		this.state={list:[]};
 		this.xy= [];
+		this.map = null;
 	}
 	componentDidMount(){
 		/*var scale = 1 ;
@@ -20,27 +23,29 @@ export default class SelectArea extends Component{
 	}
 	initMap(){
 		var _this = this;
-		var map = new AMap.Map(this.refs.bigMap, {
+		this.map =this.map|| new AMap.Map(this.refs.bigMap, {
 			resizeEnable: true
-		});
-		this.map = map;
+		});;
+		var map = this.map
 		AMap.service(["AMap.PlaceSearch"], function() {
 			var placeSearch = new AMap.PlaceSearch({ //构造地点查询类
 				pageSize: 100,
-				typ: '汽车服务|汽车销售|汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施',
-				pageIndex: 1,
-				map: map
+				type: '汽车服务|汽车销售|汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施',
+                pageIndex: 1,
+				map: map,
+				extensions: 'base'
 			});
 			//中心点坐标
 			var cpoint =JSON.parse(localStorage.getItem('lnglatXY'));
 
 			let content = "<div class = 'iconfont icon-qiandaodingwei mapicon'></div>";
-			_this.marker = new AMap.Marker({ //加点
+			_this.marker =_this.marker|| new AMap.Marker({ //加点
 				map: map,
 				content: content,
 				position: cpoint,
 				offset: new AMap.Pixel(-11, -22)
 			});
+			_this.marker.setAnimation('AMAP_ANIMATION_DROP');
 			placeSearch.searchNearBy('', cpoint, 200, function(status, result) {
                 map.setZoomAndCenter(16,cpoint);
                 console.log(status,result)
@@ -60,13 +65,14 @@ export default class SelectArea extends Component{
             localStorage.setItem('locName', this.currentAddr.name);
             localStorage.setItem('locAddr', this.currentAddr.address);
             localStorage.setItem('lnglatXY',JSON.stringify([this.currentAddr.location.lng,this.currentAddr.location.lat]));
+            localStorage.setItem('isSet',1);
             //location.href="index.html";
 
 			history.back()
         }
 	}
 	checkAddress(item,index){
-		console.log(item)
+		console.log(this.xy)
 		this.state.list.forEach((obj,index)=>{
 			obj.ischecked = false;
 		});
@@ -76,9 +82,16 @@ export default class SelectArea extends Component{
 		this.xy=[item.location.lng,item.location.lat];
 		this.map.setCenter(this.xy);
 		this.marker.setPosition(this.xy);
+		this.marker.setAnimation('AMAP_ANIMATION_DROP');
 	}
 	reset(){
-		this.map.setCenter(JSON.parse(localStorage.getItem('lnglatXY')));
+		Config.native('getPosition').then((res)=>{
+			let lnglatXY = res.data;
+			this.xy=lnglatXY
+			this.initMap();
+			this.marker.setPosition(lnglatXY);
+		});
+		//this.map.setCenter(JSON.parse(localStorage.getItem('lnglatXY')));
 	}
 	render(){
 		return (

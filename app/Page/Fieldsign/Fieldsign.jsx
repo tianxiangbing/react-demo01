@@ -20,7 +20,7 @@ export default class Fieldsign extends Component{
 		super(props)
 		this.outInfo=JSON.parse(localStorage.getItem('outInfo'));
 		this.imgList = [];
-		this.state={text:'',maxlength:50,imgList:[],showUpload:true,authList:[]};
+		this.state={text:'',maxlength:50,imgList:[],showUpload:true,authList:[],selectPeople:[]};
 	}
 	utf16toEntities(str) {
 		var patt = /[\ud800-\udbff][\udc00-\udfff]/g; // 检测utf16字符正则
@@ -133,8 +133,9 @@ export default class Fieldsign extends Component{
 			this.setState({dialog:{mask:true,show:true,msg:"图片正在上传，请稍后",type:"alert"}});
 			return;
 		}
-		Config.native('selectPeopleIOS').then((res)=>{
+		Config.native('selectPeopleIOS',JSON.stringify( this.state.selectPeople) ).then((res)=>{
 			let data = res.data;
+			this.setState({selectPeople:data});
 			data = data.map((item)=>{
 				return {authId:item.uid,authName:item.name};
 			});
