@@ -13,7 +13,7 @@ export default class SignList extends Component{
 	}
 	formatTime(time){
 		let timeStr = new Date(time);
-		timeStr = ("0"+timeStr.getHours()).slice(-2)+' : '+("0"+timeStr.getMinutes()).slice(-2);
+		timeStr = ("0"+timeStr.getHours()).slice(-2)+':'+("0"+timeStr.getMinutes()).slice(-2);
 		return timeStr;
 	}
 	showImage(position,arr){
@@ -27,9 +27,11 @@ export default class SignList extends Component{
 		}else if(typeof item.images=="object"){
 			arr=item.images;
 		}
-		return (arr).map((img,index)=>{
-			return <img src={img} onClick={this.showImage.bind(this,index,arr)}/>
-		})
+		if(arr.length >0){
+			return <div className="imgList">{(arr).map((img,index)=>{
+				return <img src={img} onClick={this.showImage.bind(this,index,arr)}/>
+			})}</div>
+		}
 	}
 	render(){
 		return (
@@ -66,11 +68,10 @@ export default class SignList extends Component{
 												}
 											})()
 										}
-										<div className="imgList">
+										
 										{
 											this.renderImg(item)
 										}
-										</div>
 									</div>
 								</div>
 								)

@@ -1,6 +1,7 @@
 import React from 'react';
 let {Component} = React;
 //import Styles from './SelectArea.scss';
+import Dialog from '../../Component/Dialog';
 
 import Config from 'config';
 
@@ -10,7 +11,7 @@ export default class SelectArea extends Component{
 		this.currentAddr = null;
 		this.map = null;
 		this.marker = null;
-		this.state={list:[]};
+		this.state={list:[],dialog:0};
 		this.xy= [];
 		this.map = null;
 	}
@@ -23,23 +24,25 @@ export default class SelectArea extends Component{
 	}
 	initMap(){
 		var _this = this;
-		this.map =this.map|| new AMap.Map(this.refs.bigMap, {
+		this.map = new AMap.Map(this.refs.bigMap, {
 			resizeEnable: true
 		});;
 		var map = this.map
 		AMap.service(["AMap.PlaceSearch"], function() {
-			var placeSearch = new AMap.PlaceSearch({ //构造地点查询类
+			_this.placeSearch =  new AMap.PlaceSearch({ //构造地点查询类
 				pageSize: 100,
 				type: '汽车服务|汽车销售|汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施',
                 pageIndex: 1,
 				map: map,
 				extensions: 'base'
 			});
+
+			var placeSearch = _this.placeSearch;
 			//中心点坐标
 			var cpoint =JSON.parse(localStorage.getItem('lnglatXY'));
-
+			placeSearch.setLang(cpoint);
 			let content = "<div class = 'iconfont icon-qiandaodingwei mapicon'></div>";
-			_this.marker =_this.marker|| new AMap.Marker({ //加点
+			_this.marker = new AMap.Marker({ //加点
 				map: map,
 				content: content,
 				position: cpoint,
@@ -85,13 +88,21 @@ export default class SelectArea extends Component{
 		this.marker.setAnimation('AMAP_ANIMATION_DROP');
 	}
 	reset(){
+        this.setState({dialog:{show:true,msg:"正在定位中，请稍候.",type:"alert"}});
 		Config.native('getPosition').then((res)=>{
 			let lnglatXY = res.data;
 			this.xy=lnglatXY
 			this.initMap();
 			this.marker.setPosition(lnglatXY);
+			setTimeout(()=>{
+				this.setState({dialog:0});
+			},1000)
 		});
 		//this.map.setCenter(JSON.parse(localStorage.getItem('lnglatXY')));
+	}
+	renderDialog(){
+		console.log(this.state.dialog)
+		return <Dialog stage={this} {...this.state.dialog}/>
 	}
 	render(){
 		return (
@@ -122,6 +133,7 @@ export default class SelectArea extends Component{
 					</div>
 				</div>
 				<div className="btnBottom" onClick={this.submit.bind(this)}>确定</div>
+                {this.state.dialog?this.renderDialog():undefined}
 			</div>
 			)
 	}

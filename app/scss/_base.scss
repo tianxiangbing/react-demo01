@@ -39,6 +39,9 @@ $fontFamily:'Microsoft Yahei', 'Hiragino Sans GB', Helvetica;
         height: $px * 3;
     }
 }
+.fontFamily{
+	font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica;
+}
 $fontSize1:/*12px*2;*/pxToRem(26);
 $fontSize2:/*14px*2*/pxToRem(28);
 $fontSize3:/*16px*2*/pxToRem(32);
@@ -71,8 +74,8 @@ $fontSize4:/*18px*2*/pxToRem(34);
 	@include font-dpr(20px);
 }
 $whiteColor:#fff;
-$borderColor:#cdcdcd;
-$borderColor2:#cecece;
+$borderColor:#dcdcdc;
+$borderColor2:#dcdcdc;
 $focusColor:#fa565a !default;
 $fontColorGray:#9a9a9a;
 $fontColorBlack:#222222;
@@ -83,6 +86,8 @@ $borderText:#f6595b !default;
 html,
 	body{
 	margin:0;padding:0;
+	
+	@extend .fontFamily;
 	.body{
 		@extend .fontSize1;
 	}
@@ -129,17 +134,17 @@ margin:0;
 .triangle {
     width: 0;
     height: 0;
-    border-left: pxToRem(15) solid transparent;
-    border-right: pxToRem(15) solid transparent;
+    border-left: pxToRem(12) solid transparent;
+    border-right: pxToRem(12) solid transparent;
     $borderColor:#aea5a5;
     display:inline-block;
     float:right;
     margin:pxToRem(35) pxToRem(40) auto auto;
 	&.down{
-	    border-top: pxToRem(20) solid $borderColor;
+	    border-top: pxToRem(13) solid $borderColor;
     }
     &.up{
-    	border-bottom:pxToRem(20) solid $borderColor;
+    	border-bottom:pxToRem(13) solid $borderColor;
     }
 }
 .z-4{

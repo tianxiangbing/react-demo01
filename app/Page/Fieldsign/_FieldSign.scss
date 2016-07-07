@@ -12,7 +12,7 @@
 	overflow:hidden;
 	.row{
 		overflow:hidden;
-		padding:pxToRem(28) 0 ;
+		padding:pxToRem(22) 0 ;
 		border-bottom:1px solid #cecece;
 		&:last-child{
 			border:none;
@@ -63,7 +63,7 @@
 	@extend .fontSize2;
 }
 .addUser{
-	padding:pxToRem(30) 0  0 0;
+	padding:pxToRem(22) 0  0 0;
 	color:$fontColorBlack;
 	span{
 		float:right;
@@ -71,9 +71,9 @@
 		margin-right:pxToRem(25);
 		i{
 			/* font-size:$fontSize2; */
-			@extend .fontSize2;
-			font-weight:bolder;
-			margin-left:pxToRem(20);
+			@extend .fontSize1;
+			color:#ccc;
+			margin-left:pxToRem(10);
 		}
 	}
 }

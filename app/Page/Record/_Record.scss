@@ -157,7 +157,7 @@ outline:none;
   outline:none;
   .normal{
     /* font-size:$fontSize2; */
-    @extend .fontSize1;
+    @extend .fontSize15;
     position:relative;
     width:pxToRem(105);
     height:pxToRem(85);
@@ -169,7 +169,7 @@ outline:none;
       height:pxToRem(28);
       line-height:pxToRem(28);
       border-radius:pxToRem(28);
-      border:1px solid #fff;
+      border:2px solid #fff;
       background-color:#f3b140;
       color:#fff;
       font-size:pxToRem(17);
@@ -211,10 +211,11 @@ outline:none;
   }
 }
 .tagTips{
-  padding:pxToRem(20) pxToRem(30);
+  padding:pxToRem(16) pxToRem(30);
   overflow:hidden;
   background-color:$whiteColor;
   color:#9f9f9f;
+  @extend .fontFamily;
   .tag{
     float:left;
     margin-top:pxToRem(10);
@@ -237,14 +238,14 @@ outline:none;
   .expandCalendar{
     float:right;
     border:1px solid $borderText;
-    padding:pxToRem(12) pxToRem(20); 
+    padding:pxToRem(6) pxToRem(20); 
     color:$borderText;
     vertical-align: middle;
     border-radius:pxToRem(50);
     i{
       vertical-align: middle;
      /*  font-size:$fontSize1; */
-      @extend .fontSize1;
+      @extend .fontSize;
       margin-right:pxToRem(10);
     }
   }
@@ -276,7 +277,7 @@ outline:none;
       text-align:center;
       color:#909090;
       padding:pxToRem(20) 0;
-      border-bottom:6px solid #fff;
+      border-bottom:4px solid #fff;
       &.focus{
         color:$focusColor;
         font-weight:bold;
@@ -298,7 +299,7 @@ outline:none;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     bottom: 0;
-    padding-top:pxToRem(14);
+    padding-top:pxToRem(28);
     position:absolute;
     top:700px;
     &.mylist2{

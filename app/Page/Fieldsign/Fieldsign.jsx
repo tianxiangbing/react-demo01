@@ -177,7 +177,7 @@ export default class Fieldsign extends Component{
 					{this.state.showUpload?<div className="upload-btn iconfont icon-qiandaotianjiazhaopian" onClick={this.selectPictrues.bind(this)}></div>:undefined}
 				</div>
 				<div className="formBox">
-					<div className="addUser" onClick={this.addUser.bind(this)}>添加可查看人员<span>{this.state.authList.length==0?<s>0人</s>:<s>{this.state.authList.length}人</s>}<i/>></span></div>
+					<div className="addUser" onClick={this.addUser.bind(this)}>添加可查看人员<span>{this.state.authList.length==0?<s>0人</s>:<s>{this.state.authList.length}人</s>}<i className="iconfont icon-xiayibu"></i></span></div>
 				</div>
 				<div className="btnBottom" onClick={this.submit.bind(this)}>提交</div>
                 {this.state.dialog?this.renderDialog():undefined}

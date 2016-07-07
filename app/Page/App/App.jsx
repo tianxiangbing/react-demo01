@@ -29,14 +29,31 @@ export default class App extends Component{
 		this.state={disabled:{area:false,time:false},acute:false,localInfo:{},lnglatXY:null,recordList:null,showText:"正在加载数据...",corpList:[],currCorp:{},expand:false,isShowSign:false,dialog:0};
 	}
 	componentWillMount(){
+		//cookie.save('userId','82977736', { path: '/' });
+		/*orgType=1
+		username=%E7%94%B0%E6%83%B3%E5%85%B5
+		timeStamp=1467853418075
+		token=1d8a3b2387b6bb7b1a2d2253b76b9965
+		userId=10101001610432
+		appversion=Android_5.3.0
+		hwtoken=0489d0a2-576c-46b7-a5be-acb9c27fe753
+		mobile=18667040027*/
+		localStorage.setItem("orgType",cookie.load('orgType'));
+		localStorage.setItem("username",cookie.load('username'));
+		localStorage.setItem("timeStamp",cookie.load('timeStamp'));
+		localStorage.setItem("token",cookie.load('token'));
+		localStorage.setItem("userId",cookie.load('userId'));
+		localStorage.setItem("appversion",cookie.load('appversion'));
+		localStorage.setItem("hwtoken",cookie.load('hwtoken'));
+		localStorage.setItem("mobile",cookie.load('mobile'));
 	}
 	getLngXY(){
 		let lastgetposition = new Date(parseInt(localStorage.getItem('lastgetposition')))||0;
 		let lnglatXY = JSON.parse(localStorage.getItem('lnglatXY'))||null
-		if( (+new Date() - lastgetposition> 1000*3 ||!lnglatXY ||!lastgetposition )&&localStorage.getItem('isSet')!=1){
-			localStorage.setItem('lastgetposition',+new Date());
+		//if( (+new Date() - lastgetposition> 1000*3 ||!lnglatXY ||!lastgetposition )&&localStorage.getItem('isSet')!=1){
+		//	localStorage.setItem('lastgetposition',+new Date());
 			return Config.native('getPosition')
-		}else{
+		/*}else{
 			return {
 				then:function(t){
 					t && t({
@@ -46,7 +63,7 @@ export default class App extends Component{
 					});
 				}
 			}
-		}
+		}*/
 	}
 	getQuery(name, type, win) {
         var reg = new RegExp("(^|&|#)" + name + "=([^&]*)(&|$|#)", "i");
@@ -54,7 +71,7 @@ export default class App extends Component{
         var Url = win.location.href;
         var u, g, StrBack = '';
         if (type == "#") {
-            u = Url.split("#");
+            u = Url.split("#"); 
         } else {
             u = Url.split("?");
         }
