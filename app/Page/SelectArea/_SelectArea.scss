@@ -1,13 +1,13 @@
 @import 'base';
 .bigMap{
-	height:pxToRem(600);
+	height:pxToRem(500);
 	z-index: 2;
 }
 .panel{
 	position:absolute;
 	top:0;
 	left:0;
-	padding-top:pxToRem(600);
+	padding-top:pxToRem(500);
 	padding-bottom:pxToRem(90);
 	overflow:auto;
 	width:100%;
@@ -36,18 +36,22 @@ display: none !important;
 }
 .amap_lib_placeSearch_list{
 	padding:0 0 0 pxToRem(30);
+	@extend .fontFamily;
 	border:none;
 	li:last-child{
 		border-bottom:none;
 	}
 	.poibox{
-		padding:pxToRem(25) 0;
+		padding:pxToRem(20) 0;
 		border-bottom:1px solid #cfcfcf;
 		.poi-title,.poi-info{
 			margin:0;
+			@extend .fontFamily;
 		}
 		.poi-name{
 			color:$fontColorBlack;
+			@extend .fontSize2;
+			@extend .fontFamily;
 		}
 		.poi-info{
 			p.poi-addr{
@@ -92,7 +96,7 @@ display: block !important;
 		  height: 45px;
 		  line-height: 45px;
 		  font-size: $fontSize1;  */
-		@extend .fontSize1;
+		@extend .fontSize2;
 	}
 }
 .amap_lib_placeSearch .poibox.active, .amap_lib_placeSearch .poibox.hover, .amap_lib_placeSearch .poibox:hover{
@@ -114,5 +118,6 @@ display: block !important;
 		z-index:33;
 		line-height:1;
 		overflow:hidden;
+		color:#666;
 	}
 }

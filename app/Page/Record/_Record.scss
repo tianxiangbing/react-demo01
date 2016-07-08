@@ -277,7 +277,7 @@ outline:none;
       text-align:center;
       color:#909090;
       padding:pxToRem(20) 0;
-      border-bottom:4px solid #fff;
+      border-bottom:3px solid #fff;
       &.focus{
         color:$focusColor;
         font-weight:bold;
@@ -306,7 +306,7 @@ outline:none;
     }
     width: 100%;
     .item:last-child .desc{
-      border-bottom:none;
+      /* border-bottom:none; */
     }
   }
 .record-body{

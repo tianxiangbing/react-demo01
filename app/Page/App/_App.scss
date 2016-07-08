@@ -12,6 +12,7 @@
 	border:1px solid #cecece;
 	overflow:hidden;
 	position:relative;
+	white-space: nowrap;
 	i{
 		position:absolute;
 		@extend .fontSize4;
@@ -22,16 +23,25 @@
 	.smallMap{
 		width:pxToRem(190);
 		height:pxToRem(172);
-		@extend .fl;
+		/* @extend .fl; */
+		display:inline-block;
 	}
 	.mapAdress{
-		@extend .fl;
+		/* @extend .fl; */
+		white-space:normal;
+		display:inline-block;
+		vertical-align: top;
 		margin-left:pxToRem(28);
 		/* font-size:$fontSize1; */
 		@extend .fontSize1;
-		padding-top:pxToRem(20);
-		width:pxToRem(400);
+		padding-top:pxToRem(25);
+		 width:pxToRem(380); 
 		line-height:1;
+		position: relative;
+		left:pxToRem(-190);
+		width:100%;
+		padding-right: pxToRem(100);
+		padding-left: pxToRem(200);
 		h2{
 			color:$fontColorBlack;
 			@extend .fontSize2;
@@ -47,6 +57,7 @@
 			@extend .fontSize1;
 			color:#ccc;
 			margin-top:pxToRem(16);
+			margin-right:pxToRem(30);
 		}
 	}
 	.replay{

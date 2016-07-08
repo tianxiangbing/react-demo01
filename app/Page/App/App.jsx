@@ -38,14 +38,18 @@ export default class App extends Component{
 		appversion=Android_5.3.0
 		hwtoken=0489d0a2-576c-46b7-a5be-acb9c27fe753
 		mobile=18667040027*/
-		localStorage.setItem("orgType",cookie.load('orgType'));
-		localStorage.setItem("username",cookie.load('username'));
-		localStorage.setItem("timeStamp",cookie.load('timeStamp'));
-		localStorage.setItem("token",cookie.load('token'));
-		localStorage.setItem("userId",cookie.load('userId'));
-		localStorage.setItem("appversion",cookie.load('appversion'));
-		localStorage.setItem("hwtoken",cookie.load('hwtoken'));
-		localStorage.setItem("mobile",cookie.load('mobile'));
+		try{
+			localStorage.setItem("orgType",cookie.load('orgType'));
+			localStorage.setItem("username",cookie.load('username'));
+			localStorage.setItem("timeStamp",cookie.load('timeStamp'));
+			localStorage.setItem("token",cookie.load('token'));
+			localStorage.setItem("userId",cookie.load('userId'));
+			localStorage.setItem("appversion",cookie.load('appversion'));
+			localStorage.setItem("hwtoken",cookie.load('hwtoken'));
+			localStorage.setItem("mobile",cookie.load('mobile'));
+		}catch(e){
+			console.log(e);
+		}
 	}
 	getLngXY(){
 		let lastgetposition = new Date(parseInt(localStorage.getItem('lastgetposition')))||0;
@@ -185,13 +189,14 @@ export default class App extends Component{
 			console.log(res)
 			return res.data;
 		})*/.then((data)=>{
+			//conf
 			data = data.data;
 			this.setState({corpList:data});
 			let orgId= localStorage.getItem('orgId');
-			if(this.getQuery('orgId')){
-				cookie.save('orgId',this.getQuery('orgId'),{ path: '/' });
-				orgId = this.getQuery('orgId')
-				localStorage.setItem('orgId',this.getQuery('orgId'));
+			if(this.getQuery('orgid')){
+				cookie.save('orgId',this.getQuery('orgid'),{ path: '/' });
+				orgId = this.getQuery('orgid')
+				localStorage.setItem('orgId',this.getQuery('orgid'));
 			}
 			let currCorp = {};
 			if(orgId && orgId !="undefined"){

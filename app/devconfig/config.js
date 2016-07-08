@@ -20,30 +20,34 @@ let Config = {
 		localStorage.setItem(appversion, cookie.load('appversion'));
 		localStorage.setItem(hwtoken, cookie.load('hwtoken'));
 		localStorage.setItem(mobile, cookie.load('mobile'));*/
-		!cookie.load('orgType') ? cookie.save('orgType', localStorage.getItem('orgType'), {
-			path: '/'
-		}) : undefined;
-		!cookie.load('username') ? cookie.save('username', localStorage.getItem('username'), {
-			path: '/'
-		}) : undefined;
-		!cookie.load('timeStamp') ? cookie.save('timeStamp', localStorage.getItem('timeStamp'), {
-			path: '/'
-		}) : undefined;
-		!cookie.load('token') ? cookie.save('token', localStorage.getItem('token'), {
-			path: '/'
-		}) : undefined;
-		!cookie.load('userId') ? cookie.save('userId', localStorage.getItem('userId'), {
-			path: '/'
-		}) : undefined;
-		!cookie.load('appversion') ? cookie.save('appversion', localStorage.getItem('appversion'), {
-			path: '/'
-		}) : undefined;
-		!cookie.load('hwtoken') ? cookie.save('hwtoken', localStorage.getItem('hwtoken'), {
-			path: '/'
-		}) : undefined;
-		!cookie.load('mobile') ? cookie.save('mobile', localStorage.getItem('mobile'), {
-			path: '/'
-		}) : undefined;
+		try {
+			!cookie.load('orgType') ? cookie.save('orgType', localStorage.getItem('orgType'), {
+				path: '/'
+			}) : undefined;
+			!cookie.load('username') ? cookie.save('username', localStorage.getItem('username'), {
+				path: '/'
+			}) : undefined;
+			!cookie.load('timeStamp') ? cookie.save('timeStamp', localStorage.getItem('timeStamp'), {
+				path: '/'
+			}) : undefined;
+			!cookie.load('token') ? cookie.save('token', localStorage.getItem('token'), {
+				path: '/'
+			}) : undefined;
+			!cookie.load('userId') ? cookie.save('userId', localStorage.getItem('userId'), {
+				path: '/'
+			}) : undefined;
+			!cookie.load('appversion') ? cookie.save('appversion', localStorage.getItem('appversion'), {
+				path: '/'
+			}) : undefined;
+			!cookie.load('hwtoken') ? cookie.save('hwtoken', localStorage.getItem('hwtoken'), {
+				path: '/'
+			}) : undefined;
+			!cookie.load('mobile') ? cookie.save('mobile', localStorage.getItem('mobile'), {
+				path: '/'
+			}) : undefined;
+		} catch (e) {
+			console.log(e);
+		}
 		//测试
 		//cookie.save('userId','82977736', { path: '/' });
 		var args = Array.prototype.slice.call(arguments, 0);

@@ -94,6 +94,7 @@ export default class SelectArea extends Component{
 			this.xy=lnglatXY
 			this.initMap();
 			this.marker.setPosition(lnglatXY);
+			localStorage.setItem('lnglatXY',JSON.stringify(lnglatXY));
 			setTimeout(()=>{
 				this.setState({dialog:0});
 			},1000)

@@ -40,7 +40,7 @@ $fontFamily:'Microsoft Yahei', 'Hiragino Sans GB', Helvetica;
     }
 }
 .fontFamily{
-	font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica;
+	font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica !important;
 }
 $fontSize1:/*12px*2;*/pxToRem(26);
 $fontSize2:/*14px*2*/pxToRem(28);
