@@ -69,7 +69,7 @@ var config = {
         }),
         extractCSS,
         //ignoreFiles
-        new webpack.optimize.CommonsChunkPlugin("vendor", "[chunkhash:8].base.js"), htmlPlugin
+        new webpack.optimize.CommonsChunkPlugin("vendor", TEST ? "base.js" : "[chunkhash:8].base.js"), htmlPlugin
     ],
     externals: {
         'react/addons': 'commonjs react/addons'

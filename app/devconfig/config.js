@@ -21,28 +21,28 @@ let Config = {
 		localStorage.setItem(hwtoken, cookie.load('hwtoken'));
 		localStorage.setItem(mobile, cookie.load('mobile'));*/
 		try {
-			!cookie.load('orgType') ? cookie.save('orgType', localStorage.getItem('orgType'), {
+			!cookie.load('orgType') && localStorage.getItem('orgType') && localStorage.getItem('orgType') != 'undefined' ? cookie.save('orgType', localStorage.getItem('orgType'), {
 				path: '/'
 			}) : undefined;
-			!cookie.load('username') ? cookie.save('username', localStorage.getItem('username'), {
+			!cookie.load('username') && localStorage.getItem('username') && localStorage.getItem('username') != 'undefined' ? cookie.save('username', localStorage.getItem('username'), {
 				path: '/'
 			}) : undefined;
-			!cookie.load('timeStamp') ? cookie.save('timeStamp', localStorage.getItem('timeStamp'), {
+			!cookie.load('timeStamp') && localStorage.getItem('timeStamp') && localStorage.getItem('timeStamp') != 'undefined' ? cookie.save('timeStamp', localStorage.getItem('timeStamp'), {
 				path: '/'
 			}) : undefined;
-			!cookie.load('token') ? cookie.save('token', localStorage.getItem('token'), {
+			!cookie.load('token') && localStorage.getItem('token') && localStorage.getItem('token') != 'undefined' ? cookie.save('token', localStorage.getItem('token'), {
 				path: '/'
 			}) : undefined;
-			!cookie.load('userId') ? cookie.save('userId', localStorage.getItem('userId'), {
+			!cookie.load('userId') && localStorage.getItem('userId') && localStorage.getItem('userId') != 'undefined' ? cookie.save('userId', localStorage.getItem('userId'), {
 				path: '/'
 			}) : undefined;
-			!cookie.load('appversion') ? cookie.save('appversion', localStorage.getItem('appversion'), {
+			!cookie.load('appversion') && localStorage.getItem('appversion') && localStorage.getItem('appversion') != 'undefined' ? cookie.save('appversion', localStorage.getItem('appversion'), {
 				path: '/'
 			}) : undefined;
-			!cookie.load('hwtoken') ? cookie.save('hwtoken', localStorage.getItem('hwtoken'), {
+			!cookie.load('hwtoken') && localStorage.getItem('hwtoken') && localStorage.getItem('hwtoken') != 'undefined' ? cookie.save('hwtoken', localStorage.getItem('hwtoken'), {
 				path: '/'
 			}) : undefined;
-			!cookie.load('mobile') ? cookie.save('mobile', localStorage.getItem('mobile'), {
+			!cookie.load('mobile') && localStorage.getItem('mobile') && localStorage.getItem('mobile') != 'undefined' ? cookie.save('mobile', localStorage.getItem('mobile'), {
 				path: '/'
 			}) : undefined;
 		} catch (e) {
@@ -112,11 +112,43 @@ let Config = {
 			}
 		}, 1000)
 	},
+	getQuery: function(name, type, win) {
+		try {
+			var reg = new RegExp("(^|&|#)" + name + "=([^&]*)(&|$|#)", "i");
+			win = win || window;
+			var Url = win.location.href;
+			var u, g, StrBack = '';
+			if (type == "#") {
+				u = Url.split("#");
+			} else {
+				u = Url.split("?");
+			}
+			if (u.length == 1) {
+				g = '';
+			} else {
+				g = u[1];
+			}
+			if (g != '') {
+				var gg = g.split(/&|#/);
+				var MaxI = gg.length;
+				var str = arguments[0] + "=";
+				for (var i = 0; i < MaxI; i++) {
+					if (gg[i].indexOf(str) == 0) {
+						StrBack = gg[i].replace(str, "");
+						break;
+					}
+				}
+			}
+			return decodeURI(StrBack);
+		} catch (e) {
+			console.log(e);
+		}
+	},
 	makeUrl: function(key, param) {
 		//alert(document.cookie)
 		CONFIG.domain = CONFIG.domain || "http://10.1.40.6/";
 		var domain = CONFIG.domain + 'signin/api/';
-		var orgId = cookie.load('orgId') || localStorage.getItem('orgId');
+		var orgId = this.getQuery('orgId') || cookie.load('orgId') || localStorage.getItem('orgId');
 		/*if(typeof param != "string"){
 			param='?debug=true&uid='+cookie.load('userId')+'&orgId='+orgId;
 		}else{

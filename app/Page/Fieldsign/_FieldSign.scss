@@ -25,7 +25,7 @@
 		}
 		.info{
 			color:#232323;
-			width:pxToRem(500);
+			/* width:pxToRem(500); */
 			float:left;
 		}
 	}
@@ -108,4 +108,7 @@
 			font-size:pxToRem(46);
 		}
 	}
+}
+.lastRow{
+	margin-bottom:pxToRem(90);
 }

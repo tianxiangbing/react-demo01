@@ -39,14 +39,14 @@ export default class App extends Component{
 		hwtoken=0489d0a2-576c-46b7-a5be-acb9c27fe753
 		mobile=18667040027*/
 		try{
-			localStorage.setItem("orgType",cookie.load('orgType'));
-			localStorage.setItem("username",cookie.load('username'));
-			localStorage.setItem("timeStamp",cookie.load('timeStamp'));
-			localStorage.setItem("token",cookie.load('token'));
-			localStorage.setItem("userId",cookie.load('userId'));
-			localStorage.setItem("appversion",cookie.load('appversion'));
-			localStorage.setItem("hwtoken",cookie.load('hwtoken'));
-			localStorage.setItem("mobile",cookie.load('mobile'));
+			cookie.load('orgType') && localStorage.setItem("orgType",cookie.load('orgType'));
+			cookie.load('username') && localStorage.setItem("username",cookie.load('username'));
+			cookie.load('timeStamp') && localStorage.setItem("timeStamp",cookie.load('timeStamp'));
+			cookie.load('token') && localStorage.setItem("token",cookie.load('token'));
+			cookie.load('userId') && localStorage.setItem("userId",cookie.load('userId'));
+			cookie.load('appversion') && localStorage.setItem("appversion",cookie.load('appversion'));
+			cookie.load('hwtoken') && localStorage.setItem("hwtoken",cookie.load('hwtoken'));
+			cookie.load('mobile') && localStorage.setItem("mobile",cookie.load('mobile'));
 		}catch(e){
 			console.log(e);
 		}
